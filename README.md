@@ -3,19 +3,13 @@
 Prerequiste:
 
 python3.8
-
 pip
-
 pyqt5
 
 
-To run
-
+To run:
 
 python simulation.py
 
-
-To clone
-
-
+To clone:
 git clone https://github.com/napz0125/mit201-scheduling
