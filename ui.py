@@ -14,7 +14,7 @@ class Ui_MainWindow(object):
         def setupUi(self, MainWindow):
 
                 MainWindow.setObjectName("MainWindow")
-                MainWindow.resize(1280, 618)
+                MainWindow.resize(950, 800)
                 font = QtGui.QFont()
                 font.setFamily("Arial")
                 MainWindow.setFont(font)                       
@@ -58,7 +58,7 @@ class Ui_MainWindow(object):
                 self.at_4.setObjectName("at_4")
 
                 self.at_5 = QtWidgets.QSpinBox(self.centralwidget)
-                self.at_5.setEnabled(False)
+                self.at_5.setEnabled(True)
                 self.at_5.setGeometry(QtCore.QRect(200, 300, 48, 26))
                 self.at_5.setMaximum(999)
                 self.at_5.setObjectName("at_5")
@@ -70,7 +70,7 @@ class Ui_MainWindow(object):
                 self.bt1_4.setObjectName("bt1_4")                
                
                 self.bt1_5 = QtWidgets.QSpinBox(self.centralwidget)
-                self.bt1_5.setEnabled(False)
+                self.bt1_5.setEnabled(True)
                 self.bt1_5.setGeometry(QtCore.QRect(270, 300, 48, 26))
                 self.bt1_5.setMaximum(999)
                 self.bt1_5.setObjectName("bt1_5")
@@ -112,25 +112,27 @@ class Ui_MainWindow(object):
                 font.setBold(True)
                 font.setWeight(75)
                 self.prsId4.setFont(font)
-                
                 self.prsId4.setObjectName("prsId4")
+
                 self.prsId5 = QtWidgets.QLabel(self.centralwidget)
-                self.prsId5.setEnabled(False)
+                self.prsId5.setEnabled(True)
                 self.prsId5.setGeometry(QtCore.QRect(110, 300, 71, 25))
                 font = QtGui.QFont()
                 font.setBold(True)
                 font.setWeight(75)
                 self.prsId5.setFont(font)
-                
                 self.prsId5.setObjectName("prsId5")
+
                 self.checkBox_1 = QtWidgets.QCheckBox(self.centralwidget)
                 self.checkBox_1.setEnabled(True)
+                self.checkBox_1.setChecked(True)
                 self.checkBox_1.setGeometry(QtCore.QRect(70, 100, 41, 23))
                 self.checkBox_1.setTabletTracking(False)
                 self.checkBox_1.setText("")
 
                 self.checkBox_2 = QtWidgets.QCheckBox(self.centralwidget)
                 self.checkBox_2.setEnabled(True)
+                self.checkBox_2.setCheckable(True)
                 self.checkBox_2.setGeometry(QtCore.QRect(70, 150, 41, 23))
                 self.checkBox_2.setTabletTracking(False)
                 self.checkBox_2.setText("")
@@ -171,21 +173,11 @@ class Ui_MainWindow(object):
                 icon4.addPixmap(QtGui.QPixmap("ui/orange.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
                 self.checkBox_5.setIcon(icon4)
                 self.checkBox_5.setCheckable(True)
-                self.checkBox_5.setChecked(False)
+                self.checkBox_5.setChecked(True)
                 self.checkBox_5.setObjectName("checkBox_5")
 
-
-                #self.setData = QtWidgets.QRadioButton(self.centralwidget)
-                #self.setData.setGeometry(QtCore.QRect(10, 30, 112, 23))
-                #self.setData.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
-                #self.setData.setLayoutDirection(QtCore.Qt.LeftToRight)
-                #self.setData.setChecked(True)
-                #self.setData.setObjectName("setData")
-
-                
-
                 self.fcfs = QtWidgets.QPushButton(self.centralwidget)
-                self.fcfs.setGeometry(QtCore.QRect(10,10 , 61, 25))
+                self.fcfs.setGeometry(QtCore.QRect(10, 10, 61, 25))
                 self.fcfs.setObjectName("fcfs_b")
 
                 self.preemptive = QtWidgets.QPushButton(self.centralwidget)
@@ -193,14 +185,6 @@ class Ui_MainWindow(object):
                 self.preemptive.setObjectName("preemptive")
 
                 #simulation side
-
-                self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-                self.pushButton.setGeometry(QtCore.QRect(910, 380, 76, 41))
-                font = QtGui.QFont()
-                font.setFamily("Arial")
-                font.setPointSize(10)
-                self.pushButton.setFont(font)
-                self.pushButton.setObjectName("pushButton")
                 self.label = QtWidgets.QLabel(self.centralwidget)
                 self.label.setGeometry(QtCore.QRect(350, 70, 41, 41))
                 self.label.setStyleSheet("background-color: #4EEE94;\n"
@@ -229,6 +213,15 @@ class Ui_MainWindow(object):
                 self.label_4.setText("P4")
                 self.label_4.setObjectName("label_4")
                 self.label_4.setAlignment(QtCore.Qt.AlignCenter)
+
+                self.label_5 = QtWidgets.QLabel(self.centralwidget)
+                self.label_5.setGeometry(QtCore.QRect(350, 390, 41, 41))
+                self.label_5.setStyleSheet("background-color: rgb(255, 187, 180);\n"
+                                           "border-radius:20px;")
+                self.label_5.setText("P5")
+                self.label_5.setObjectName("label_5")
+                self.label_5.setAlignment(QtCore.Qt.AlignCenter)
+
                 self.label_5 = QtWidgets.QLabel(self.centralwidget)
                 self.label_5.setGeometry(QtCore.QRect(560, 60, 16, 375))
                 self.label_5.setStyleSheet("background-color: rgb(170, 170, 127);")
@@ -267,9 +260,17 @@ class Ui_MainWindow(object):
                 self.label_11.setStyleSheet("image: url(:/newPrefix/4.png);")
                 self.label_11.setText("")
                 self.label_11.setObjectName("label_11")
+
+                self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+                self.pushButton.setGeometry(QtCore.QRect(30, 380, 76, 41))
+                font = QtGui.QFont()
+                font.setFamily("Arial")
+                font.setPointSize(10)
+                self.pushButton.setFont(font)
+                self.pushButton.setObjectName("pushButton")
                
                 self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-                self.pushButton_4.setGeometry(QtCore.QRect(990, 380, 76, 41))
+                self.pushButton_4.setGeometry(QtCore.QRect(120, 380, 76, 41))
                 font = QtGui.QFont()
                 font.setFamily("Arial")
                 font.setPointSize(10)
@@ -278,22 +279,33 @@ class Ui_MainWindow(object):
                 MainWindow.setCentralWidget(self.centralwidget)
         
                 self.tableView = QtWidgets.QTableView(self.centralwidget)
-                self.tableView.setGeometry(QtCore.QRect(950, 100, 307, 178))
+                self.tableView.setGeometry(QtCore.QRect(30, 580, 307, 178))
                 self.tableView.setObjectName("tableView")
-                
-              
-                
-                
+
+                self.labelchart = QtWidgets.QLabel(self.centralwidget)
+                self.labelchart.setGeometry(QtCore.QRect(30, 470, 800, 100))
+                canvas = QtGui.QPixmap(800, 100)
+                self.labelchart.setPixmap(canvas)
+
+                self.btnRun = QtWidgets.QPushButton(self.centralwidget)
+                self.btnRun.setGeometry(QtCore.QRect(200, 380, 76, 41))
+                font = QtGui.QFont()
+                font.setFamily("Arial")
+                font.setPointSize(10)
+                self.btnRun.setFont(font)
+                self.btnRun.setText("Run")
+                self.btnRun.setObjectName("btnRun")
+
+                MainWindow.setCentralWidget(self.centralwidget)
 
                 self.retranslateUi(MainWindow)
                 QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        
+
 
         def retranslateUi(self, MainWindow):
                 _translate = QtCore.QCoreApplication.translate
-                MainWindow.setWindowTitle(_translate("MainWindow", "Process Simulation - Group 1"))             
-                #self.label_7.setText(_translate("MainWindow", ""))        
+                MainWindow.setWindowTitle(_translate("MainWindow", "Process Simulation - Group 1"))
                 self.pushButton.setText(_translate("MainWindow", "Start"))   
                 self.pushButton_4.setText(_translate("MainWindow", "Reset"))
                 self.label_arr.setText(_translate("MainWindow", "Arrival\n"
@@ -308,6 +320,9 @@ class Ui_MainWindow(object):
                 self.prsId5.setText(_translate("MainWindow", "P5"))
                 self.fcfs.setText(_translate("MainWindow", "FCFS"))
                 self.preemptive.setText(_translate("MainWindow", "Preemptive Priority"))
+                #self.labelchart.setText(_translate("MainWindow", "but butt"))
+
+
 
                 MainWindow.setWindowOpacity(0.96)         
                 #MainWindow.setWindowFlag(QtCore.Qt.FramelessWindowHint)

@@ -1,5 +1,0 @@
-id_process,arrival time,CPU burst1,I/O time,CPU burst2
-p_1,0,20,0,0
-p_2,0,20,0,0
-p_3,0,3,0,0
-p_4,0,04,0,0
