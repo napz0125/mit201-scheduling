@@ -1,8 +1,11 @@
 # mit201-scheduling
 
 Prerequiste:
+
 python3.8
+
 pip
+
 pyqt5
 
 
