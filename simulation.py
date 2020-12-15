@@ -48,7 +48,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
         self.pushButton.clicked.connect(self.start_threads)
         self.pushButton_4.pressed.connect(self.restart)
 
-        self.trueSequence = [0, 1, 2, 3, 4]
+        self.trueSequence = [1, 2, 3, 4, 5]
         self.trueBurstTime = [5, 6, 6, 1, 4]
 
         self.color = [(255, 64, 0), (255, 128, 0), (255, 191, 0),

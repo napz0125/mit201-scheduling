@@ -187,28 +187,28 @@ class Ui_MainWindow(object):
                 #simulation side
                 self.label = QtWidgets.QLabel(self.centralwidget)
                 self.label.setGeometry(QtCore.QRect(350, 70, 41, 41))
-                self.label.setStyleSheet("background-color: #4EEE94;\n"
+                self.label.setStyleSheet("background-color: rgb(255, 64, 0);\n"
         "border-radius:20px;")
                 self.label.setText("P1")
                 self.label.setAlignment(QtCore.Qt.AlignCenter)
                 self.label.setObjectName("label")
                 self.label_2 = QtWidgets.QLabel(self.centralwidget)
                 self.label_2.setGeometry(QtCore.QRect(350, 150, 41, 41))
-                self.label_2.setStyleSheet("background-color: rgb(26, 183, 255);\n"
+                self.label_2.setStyleSheet("background-color: rgb(255, 128, 0);\n"
         "border-radius:20px;")
                 self.label_2.setText("P2")
                 self.label_2.setAlignment(QtCore.Qt.AlignCenter)
                 self.label_2.setObjectName("label_2")
                 self.label_3 = QtWidgets.QLabel(self.centralwidget)
                 self.label_3.setGeometry(QtCore.QRect(350, 230, 41, 41))
-                self.label_3.setStyleSheet("background-color: #6A5ACD;\n"
+                self.label_3.setStyleSheet("background-color: rgb(255, 191, 0);\n"
         "border-radius:20px;")
                 self.label_3.setText("P3")
                 self.label_3.setObjectName("label_3")
                 self.label_3.setAlignment(QtCore.Qt.AlignCenter)
                 self.label_4 = QtWidgets.QLabel(self.centralwidget)
                 self.label_4.setGeometry(QtCore.QRect(350, 310, 41, 41))
-                self.label_4.setStyleSheet("background-color: rgb(255, 25, 163);\n"
+                self.label_4.setStyleSheet("background-color: rgb(255, 255, 0);\n"
         "border-radius:20px;")
                 self.label_4.setText("P4")
                 self.label_4.setObjectName("label_4")
@@ -216,7 +216,7 @@ class Ui_MainWindow(object):
 
                 self.label_5 = QtWidgets.QLabel(self.centralwidget)
                 self.label_5.setGeometry(QtCore.QRect(350, 390, 41, 41))
-                self.label_5.setStyleSheet("background-color: rgb(255, 187, 180);\n"
+                self.label_5.setStyleSheet("background-color: rgb(128, 255, 0);\n"
                                            "border-radius:20px;")
                 self.label_5.setText("P5")
                 self.label_5.setObjectName("label_5")
