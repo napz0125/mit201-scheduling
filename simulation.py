@@ -69,13 +69,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
         self.drawLines(qp)
         qp.end()
 
-        '''if self.flag:
-            painter = QPainter()
-            painter.begin(self)
-            self.drawChart(painter)
-            painter.end()'''
-
-    '''dynamic now'''
+    '''dynamic lines'''
     def drawLines(self, qp):
         pen = QPen(Qt.black, 2, Qt.SolidLine)
 
@@ -107,6 +101,10 @@ class mywindow(Ui_MainWindow, QMainWindow):
         worker.signals.progress.connect(self.draw_chart)
         self.threadPool.start(worker)
 
+        print(self.bt1_1.value()) #burst
+        print(self.at_1.value()) #arrival
+        print(self.checkBox_1.isChecked()) #is checked?
+
     def update_progress(self,  painter, chartrect, pname, tail, txtpos):
         painter.drawRect(chartrect)
         pen = QtGui.QPen()
@@ -119,9 +117,6 @@ class mywindow(Ui_MainWindow, QMainWindow):
     def draw_chart(self, progress):
         if self.flag:
             painter = QtGui.QPainter(self.labelchart.pixmap())
-            print(progress)
-
-            letsMovetogether = 250
             mapColor = {}
             uniqueTrueSequence = set(self.trueSequence)
             colorIndex = 0
@@ -137,35 +132,35 @@ class mywindow(Ui_MainWindow, QMainWindow):
             r = self.color[mapColor[k]][0]
             g = self.color[mapColor[k]][1]
             b = self.color[mapColor[k]][2]
+            print(r,g,b)
             painter.setBrush(QColor(r, g, b))
 
             # Process label
             p = "P" + str(self.trueSequence[j])
-            chartRect = QRect(tailPos, 30, i+progress * 5,  30)
-            print(i + progress)
+            chartRect = QRect(tailPos, 30, i+progress + 15,  30)
+
 
             self.update_progress( painter, chartRect, p, tailPos, i + 45 )
 
             tailPos += i * 20
             j += 1
 
-       #painter.end()
-       #self.update()
         # Ruler
         rulerPos = 10
         sumTime = sum(self.timeForEachProcess)
         for i in range(sumTime + 1):
             painter.setBrush(QColor(0, 0, 0))
-            painter.drawRect(rulerPos, 70, 1, 15)
+            painter.drawRect(rulerPos, 77, 1, 10)
             pen = QtGui.QPen()
             pen.setWidth(1)
             pen.setColor(QtGui.QColor('black'))
             painter.setPen(pen)
-            painter.drawText(rulerPos, 70, str(i))
-            rulerPos += 10
+            painter.drawText(rulerPos, 75, str(i))
+            rulerPos += 21
             if i == 61:
                  break
         self.update()
+
     # painter.drawRect(30, 262.5 + letsMovetogether, sumTime * 30, 1)
         painter.end()
 
@@ -252,14 +247,14 @@ class mywindow(Ui_MainWindow, QMainWindow):
             # self.chartRect.translate(i)
             time.sleep(0.20)
         self.thread_suspend(self.thread_chart)
-        # self.chartStack()
+
 
     def chartStack(self):
         i = 480
         while i <= 780:
             newp = QPoint(i, 530)
             self.chartRect.moveTo(newp)
-            # self.chartRect.translate(i)
+            self.chartRect.translate(i)
             i += 10
             time.sleep(0.3)
 
@@ -313,7 +308,6 @@ class TableModel(QAbstractTableModel):
             return QVariant()
         # What's the header for the given column?
         return headers[section]
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
