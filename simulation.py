@@ -52,8 +52,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
         self.trueBurstTime = [5, 6, 6, 1, 4]
 
         self.color = [(255, 64, 0), (255, 128, 0), (255, 191, 0),
-                      (255, 255, 0), (128, 255, 0), (0, 255, 191),
-                      (0, 191, 255), (0, 128, 255), (128, 0, 255), (255, 0, 255)]
+                      (255, 255, 0), (128, 255, 0)]
 
         self.btnRun.clicked.connect(self.action_chart)
 
@@ -96,14 +95,34 @@ class mywindow(Ui_MainWindow, QMainWindow):
         qp.drawLine(800, 235, 560, 235)
 
     def action_chart(self):
-        self.flag = True
-        worker = Worker()
-        worker.signals.progress.connect(self.draw_chart)
-        self.threadPool.start(worker)
+        # validation
+        if self.checkBox_1.isChecked() and self.bt1_1.value() == 0:
+            QMessageBox.question(self, 'ERROR', "CPU Burst time for P1 cannot be 0", QMessageBox.Ok)
+            self.flag = False
+        elif self.checkBox_2.isChecked() and self.bt1_2.value() == 0:
+            QMessageBox.question(self, 'ERROR', "CPU Burst time for P2 cannot be 0", QMessageBox.Ok)
+            self.flag = False
+        elif self.checkBox_3.isChecked() and self.bt1_3.value() == 0:
+            QMessageBox.question(self, 'ERROR', "CPU Burst time for P3 cannot be 0", QMessageBox.Ok)
+            self.flag = False
+        elif self.checkBox_4.isChecked() and self.bt1_4.value() == 0:
+            QMessageBox.question(self, 'ERROR', "CPU Burst time for P4 cannot be 0", QMessageBox.Ok)
+            self.flag = False
+        elif self.checkBox_5.isChecked() and self.bt1_5.value() == 0:
+            QMessageBox.question(self, 'ERROR', "CPU Burst time for P5 cannot be 0", QMessageBox.Ok)
+            self.flag = False
+        elif not self.checkBox_5.isChecked() and not self.checkBox_4.isChecked() and not self.checkBox_3.isChecked() \
+                and not self.checkBox_2.isChecked() and not self.checkBox_1.isChecked():
+            QMessageBox.question(self, 'ERROR', "Nothing to simulate! Either No Process/CPU Burst time given.", QMessageBox.Ok)
+            self.flag = False
+        else:
+            self.flag = True
 
-        print(self.bt1_1.value()) #burst
-        print(self.at_1.value()) #arrival
-        print(self.checkBox_1.isChecked()) #is checked?
+
+        if self.flag is True:
+            worker = Worker()
+            worker.signals.progress.connect(self.draw_chart)
+            self.threadPool.start(worker)
 
     def update_progress(self,  painter, chartrect, pname, tail, txtpos):
         painter.drawRect(chartrect)
