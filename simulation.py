@@ -95,30 +95,6 @@ class mywindow(Ui_MainWindow, QMainWindow):
         qp.drawLine(800, 235, 560, 235)
 
     def action_chart(self):
-        # validation
-        if self.checkBox_1.isChecked() and self.bt1_1.value() == 0:
-            QMessageBox.question(self, 'ERROR', "CPU Burst time for P1 cannot be 0", QMessageBox.Ok)
-            self.flag = False
-        elif self.checkBox_2.isChecked() and self.bt1_2.value() == 0:
-            QMessageBox.question(self, 'ERROR', "CPU Burst time for P2 cannot be 0", QMessageBox.Ok)
-            self.flag = False
-        elif self.checkBox_3.isChecked() and self.bt1_3.value() == 0:
-            QMessageBox.question(self, 'ERROR', "CPU Burst time for P3 cannot be 0", QMessageBox.Ok)
-            self.flag = False
-        elif self.checkBox_4.isChecked() and self.bt1_4.value() == 0:
-            QMessageBox.question(self, 'ERROR', "CPU Burst time for P4 cannot be 0", QMessageBox.Ok)
-            self.flag = False
-        elif self.checkBox_5.isChecked() and self.bt1_5.value() == 0:
-            QMessageBox.question(self, 'ERROR', "CPU Burst time for P5 cannot be 0", QMessageBox.Ok)
-            self.flag = False
-        elif not self.checkBox_5.isChecked() and not self.checkBox_4.isChecked() and not self.checkBox_3.isChecked() \
-                and not self.checkBox_2.isChecked() and not self.checkBox_1.isChecked():
-            QMessageBox.question(self, 'ERROR', "Nothing to simulate! Either No Process/CPU Burst time given.", QMessageBox.Ok)
-            self.flag = False
-        else:
-            self.flag = True
-
-
         if self.flag is True:
             worker = Worker()
             worker.signals.progress.connect(self.draw_chart)
@@ -179,35 +155,53 @@ class mywindow(Ui_MainWindow, QMainWindow):
             if i == 61:
                  break
         self.update()
-
-    # painter.drawRect(30, 262.5 + letsMovetogether, sumTime * 30, 1)
         painter.end()
 
-    def run(self):
-        self.flag = True
-        self.update()
-
     def start_threads(self):
-        self.pushButton.hide()
         print("Threads num: {}".format(threading.activeCount()))
         if threading.activeCount() >= 2:
             pass
         else:
-            self.thread1.suspended = threading.Event()
-            self.thread1.suspended.set()
-            self.thread2.suspended = threading.Event()
-            self.thread2.suspended.set()
-            self.thread3.suspended = threading.Event()
-            self.thread3.suspended.set()
-            self.thread4.suspended = threading.Event()
-            self.thread4.suspended.set()
+            # validation
+            if self.checkBox_1.isChecked() and self.bt1_1.value() == 0:
+                QMessageBox.question(self, 'ERROR', "CPU Burst time for P1 cannot be 0", QMessageBox.Ok)
+                self.flag = False
+            elif self.checkBox_2.isChecked() and self.bt1_2.value() == 0:
+                QMessageBox.question(self, 'ERROR', "CPU Burst time for P2 cannot be 0", QMessageBox.Ok)
+                self.flag = False
+            elif self.checkBox_3.isChecked() and self.bt1_3.value() == 0:
+                QMessageBox.question(self, 'ERROR', "CPU Burst time for P3 cannot be 0", QMessageBox.Ok)
+                self.flag = False
+            elif self.checkBox_4.isChecked() and self.bt1_4.value() == 0:
+                QMessageBox.question(self, 'ERROR', "CPU Burst time for P4 cannot be 0", QMessageBox.Ok)
+                self.flag = False
+            elif self.checkBox_5.isChecked() and self.bt1_5.value() == 0:
+                QMessageBox.question(self, 'ERROR', "CPU Burst time for P5 cannot be 0", QMessageBox.Ok)
+                self.flag = False
+            elif not self.checkBox_5.isChecked() and not self.checkBox_4.isChecked() and not self.checkBox_3.isChecked() \
+                    and not self.checkBox_2.isChecked() and not self.checkBox_1.isChecked():
+                QMessageBox.question(self, 'ERROR', "Nothing to simulate! Either No Process/CPU Burst time given.",
+                                     QMessageBox.Ok)
+                self.flag = False
+            else:
+                self.flag = True
 
-            self.thread1.start()
-            self.thread2.start()
-            self.thread3.start()
-            self.thread4.start()
+            if self.flag is True:
+                self.thread1.suspended = threading.Event()
+                self.thread1.suspended.set()
+                self.thread2.suspended = threading.Event()
+                self.thread2.suspended.set()
+                self.thread3.suspended = threading.Event()
+                self.thread3.suspended.set()
+                self.thread4.suspended = threading.Event()
+                self.thread4.suspended.set()
 
-            self.action_chart()
+                self.thread1.start()
+                self.thread2.start()
+                self.thread3.start()
+                self.thread4.start()
+
+                self.action_chart()
 
     def suspend_threads(self):
         for i in range(1, 5):
@@ -232,7 +226,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
             time.sleep(0.28)
         self.thread_suspend(self.thread2)
         self.label_2.setGeometry(QtCore.QRect(560, 190, 41, 41))
-        self.InStack()
+        self.instack()
 
     def label3_move(self):
         for i in range(350, 380, 5):
@@ -267,8 +261,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
             time.sleep(0.20)
         self.thread_suspend(self.thread_chart)
 
-
-    def chartStack(self):
+    def chartstack(self):
         i = 480
         while i <= 780:
             newp = QPoint(i, 530)
@@ -277,7 +270,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
             i += 10
             time.sleep(0.3)
 
-    def InStack(self):
+    def instack(self):
         i1, i4, i3, i2 = 600, 560, 520, 480
         while i2 <= 780:
             if i1 > 780:
@@ -305,7 +298,6 @@ class mywindow(Ui_MainWindow, QMainWindow):
     def restart(self):
         os.system("python simulation.py")
         self.close()
-
 
 class TableModel(QAbstractTableModel):
     def rowCount(self, parent):
