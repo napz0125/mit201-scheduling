@@ -2,7 +2,7 @@ import sys
 from itertools import groupby
 from operator import itemgetter
 
-class CPU_SCHED():
+class Algo():
     def __init__(self):
         super().__init__()
 
@@ -10,43 +10,40 @@ class CPU_SCHED():
         #assuming all process passed in here are already in ordered
         arrival_and_burst = params
         list_arrival_and_burst = list(arrival_and_burst.items())
-        tat = []
-        tat.insert(0, list_arrival_and_burst[0][1][1] + list_arrival_and_burst[0][1][0])
+        self.tat = []
+        self.tat.insert(0, list_arrival_and_burst[0][1][1] + list_arrival_and_burst[0][1][0])
 
-        arrival_time = []
-        arrival_time.insert(0, list_arrival_and_burst[0][1][0])
+        self.arrival_time = []
+        self.arrival_time.insert(0, list_arrival_and_burst[0][1][0])
 
         for i in range(1, len(list_arrival_and_burst)):
-            tat.insert(i, list_arrival_and_burst[i][1][1])
-            arrival_time.insert(i,  list_arrival_and_burst[i][1][0])
+            self.tat.insert(i, list_arrival_and_burst[i][1][1])
+            self.arrival_time.insert(i,  list_arrival_and_burst[i][1][0])
 
-        forgantt = []
+        self.forgantt = []
         tattemp = 0
-        wait_time = []
+        self.wait_time = []
         wait_temp = 0
         tattemp = 0
 
-        for i in range(0, len(tat)):
-            tattemp += tat[i]
-            forgantt.insert(i, tattemp)
-            wait_temp = tattemp - arrival_time[i]
-            wait_time.insert(i, wait_temp)
+        for i in range(0, len(self.tat)):
+            tattemp += self.tat[i]
+            self.forgantt.insert(i, tattemp)
+            wait_temp = tattemp - self.arrival_time[i]
+            self.wait_time.insert(i, wait_temp)
 
-        wait_time[0] = 0 #update position 0 to 0 waiting time
-
-        print("TAT : ", tat)
-        print("Gantt Chart : ", forgantt)
-        print("arrival time : ", arrival_time)
-        print("wait time : ", wait_time)
+        self.wait_time[0] = 0 #update position 0 to
+        # 0 waiting time
 
     def PREEMPTIVE_PRIORITY(self):
         #assumption : already sorted by arrival time
         arrival_burst_priority = {"p1": [1, 8, 1], "p4": [2, 5, 3], "p3": [3, 2, 2], "p5": [4, 3, 4], "p2": [6, 6, 5]}
         list_arrival_burst_priority = list(arrival_burst_priority.items())
-        by_priority = {} #dictionary that will hold the sorted process
+        by_priority = {} #dictionary that will hold the sorted process by priority
         sequence = 0
         #sorting by priority using selection sort algorithm
         #print(list_arrival_burst_priority[0][1][2])
+        print(list_arrival_burst_priority)
         for i in range(len(list_arrival_burst_priority)):
             # Find the minimum element in remaining
             # unsorted array
@@ -88,11 +85,19 @@ class CPU_SCHED():
         print("gantt chart", ganttchart)
         print("arrival :" , arrival_time)
         print("wait time", wait_time)
+        print(list_arrival_burst_priority)
 
+'''sched = CPU_SCHED()
 
-sched = CPU_SCHED()
-#arrival_and_burst = {"p1": [1, 8], "p4": [2, 5], "p3": [3, 2], "p5": [4, 3], "p2": [6, 6]}
-#sched.FCFS(arrival_and_burst)
-sched.PREEMPTIVE_PRIORITY()
+print("FCFS")
+arrival_and_burst = {"p1": [1, 8], "p4": [2, 5], "p3": [3, 2], "p5": [4, 3], "p2": [6, 6]}
+sched.FCFS(arrival_and_burst)
+print("TAT : ", sched.tat)
+print("Gantt Chart : ", sched.forgantt)
+print("arrival time : ", sched.arrival_time)
+print("wait time : ", sched.wait_time)
+
+print("PREEMPTIVE PRIORITY")
+sched.PREEMPTIVE_PRIORITY()'''
 
 
