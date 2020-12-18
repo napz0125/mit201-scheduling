@@ -26,54 +26,66 @@ class Ui_MainWindow(object):
                 self.bt1_1.setGeometry(QtCore.QRect(270, 100, 48, 26))
                 self.bt1_1.setMaximum(999)
                 self.bt1_1.setObjectName("bt1_1")
+                self.bt1_1.setValue(1)
 
                 self.at_1 = QtWidgets.QSpinBox(self.centralwidget)
                 self.at_1.setGeometry(QtCore.QRect(200, 100, 48, 26))
                 self.at_1.setMaximum(999)
                 self.at_1.setObjectName("at_1")
+                self.at_1.setValue(0)
               
                 self.bt1_2 = QtWidgets.QSpinBox(self.centralwidget)
                 self.bt1_2.setEnabled(True)
                 self.bt1_2.setGeometry(QtCore.QRect(270, 150, 48, 26))
                 self.bt1_2.setMaximum(999)
                 self.bt1_2.setObjectName("bt1_2")
+                self.bt1_2.setValue(2)
                                 
                 self.at_2 = QtWidgets.QSpinBox(self.centralwidget)
                 self.at_2.setGeometry(QtCore.QRect(200, 150, 48, 26))
                 self.at_2.setMaximum(999)
                 self.at_2.setObjectName("at_2")
+                self.at_2.setValue(2)
+
                 self.at_3 = QtWidgets.QSpinBox(self.centralwidget)
                 self.at_3.setGeometry(QtCore.QRect(200, 200, 48, 26))
                 self.at_3.setMaximum(999)
                 self.at_3.setObjectName("at_3")
+                self.at_3.setValue(3)
+
                 self.bt1_3 = QtWidgets.QSpinBox(self.centralwidget)
                 self.bt1_3.setEnabled(True)
                 self.bt1_3.setGeometry(QtCore.QRect(270, 200, 48, 26))
                 self.bt1_3.setMaximum(999)
                 self.bt1_3.setObjectName("bt1_3")
+                self.bt1_3.setValue(3)
                                                            
                 self.at_4 = QtWidgets.QSpinBox(self.centralwidget)
                 self.at_4.setGeometry(QtCore.QRect(200, 250, 48, 26))
                 self.at_4.setMaximum(999)
                 self.at_4.setObjectName("at_4")
+                self.at_4.setValue(4)
 
                 self.at_5 = QtWidgets.QSpinBox(self.centralwidget)
                 self.at_5.setEnabled(True)
                 self.at_5.setGeometry(QtCore.QRect(200, 300, 48, 26))
                 self.at_5.setMaximum(999)
                 self.at_5.setObjectName("at_5")
+                self.at_5.setValue(5)
                                 
                 self.bt1_4 = QtWidgets.QSpinBox(self.centralwidget)
                 self.bt1_4.setEnabled(True)
                 self.bt1_4.setGeometry(QtCore.QRect(270, 250, 48, 26))
                 self.bt1_4.setMaximum(999)
-                self.bt1_4.setObjectName("bt1_4")                
+                self.bt1_4.setObjectName("bt1_4")
+                self.bt1_4.setValue(4)
                
                 self.bt1_5 = QtWidgets.QSpinBox(self.centralwidget)
                 self.bt1_5.setEnabled(True)
                 self.bt1_5.setGeometry(QtCore.QRect(270, 300, 48, 26))
                 self.bt1_5.setMaximum(999)
                 self.bt1_5.setObjectName("bt1_5")
+                self.bt1_5.setValue(5)
                               
                 self.label_arr = QtWidgets.QLabel(self.centralwidget)
                 self.label_arr.setGeometry(QtCore.QRect(200, 60, 51, 31))
@@ -300,8 +312,6 @@ class Ui_MainWindow(object):
 
                 self.retranslateUi(MainWindow)
                 QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-
 
         def retranslateUi(self, MainWindow):
                 _translate = QtCore.QCoreApplication.translate

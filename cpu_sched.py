@@ -9,7 +9,7 @@ class Algo():
     def FCFS(self, params):
         #assuming all process passed in here are already in ordered
         arrival_and_burst = params
-        list_arrival_and_burst = list(arrival_and_burst.items())
+        list_arrival_and_burst = params  #list(arrival_and_burst.items())
         self.tat = []
         self.tat.insert(0, list_arrival_and_burst[0][1][1] + list_arrival_and_burst[0][1][0])
 
@@ -32,8 +32,7 @@ class Algo():
             wait_temp = tattemp - self.arrival_time[i]
             self.wait_time.insert(i, wait_temp)
 
-        self.wait_time[0] = 0 #update position 0 to
-        # 0 waiting time
+        self.wait_time[0] = 0 #update position 0 to 0 waiting time
 
     def PREEMPTIVE_PRIORITY(self):
         #assumption : already sorted by arrival time

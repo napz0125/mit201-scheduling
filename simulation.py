@@ -7,15 +7,15 @@ from PyQt5.QtCore import *
 # from PyQt5 import *
 from ui import *
 from PyQt5.QtWidgets import *
+import cpu_sched
 
-headers = ["Process", "Turnaround", "Avg. Wait-Time"]
-data = [("P1", "12", "45"),
-        ("P2", "13", "23"),
-        ("P3", "23", "34"),
-        ("P4", "21", "98"),
-        ("P5", "34", "56")]
-
-
+headers = ["Process", "Turnaround", "Wait-Time"]
+data = []
+        #[("P1", "12", "45"),
+        #("P2", "13", "23"),
+        #("P3", "23", "34"),
+        #("P4", "21", "98"),
+        #("P5", "34", "56")]
 class WorkerSignals(QObject):
     progress = pyqtSignal(int)
 
@@ -32,6 +32,7 @@ class Worker(QRunnable):
             self.signals.progress.emit(progress_pc)
             time.sleep(0.001)
 
+
 class mywindow(Ui_MainWindow, QMainWindow):
     def __init__(self):
         super(mywindow, self).__init__()
@@ -43,24 +44,25 @@ class mywindow(Ui_MainWindow, QMainWindow):
         self.thread4 = threading.Thread(target=self.label4_move)
 
         self.flag = False
-        self.timeForEachProcess = [5, 6, 6, 1, 4]
 
         self.pushButton.clicked.connect(self.start_threads)
         self.pushButton_4.pressed.connect(self.restart)
 
-        self.trueSequence = [1, 2, 3, 4, 5]
-        self.trueBurstTime = [5, 6, 6, 1, 4]
+        self.timeForEachProcess = None  #[5, 6, 6, 1, 4]
+        self.trueSequence = None #[1, 2, 3, 4, 5]
+        self.trueBurstTime = None #[5, 6, 6, 1, 4]
 
         self.color = [(255, 64, 0), (255, 128, 0), (255, 191, 0),
                       (255, 255, 0), (128, 255, 0)]
 
         self.btnRun.clicked.connect(self.action_chart)
 
-        model = TableModel()
-        self.tableView.setModel(model)
+
 
         self.threadPool = QThreadPool()
         print("Multithreading with maximum %d threads" % self.threadPool.maxThreadCount())
+
+        self.algo = None
 
     def paintEvent(self, e):
         qp = QPainter()
@@ -69,6 +71,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
         qp.end()
 
     '''dynamic lines'''
+
     def drawLines(self, qp):
         pen = QPen(Qt.black, 2, Qt.SolidLine)
 
@@ -100,7 +103,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
             worker.signals.progress.connect(self.draw_chart)
             self.threadPool.start(worker)
 
-    def update_progress(self,  painter, chartrect, pname, tail, txtpos):
+    def update_progress(self, painter, chartrect, pname, tail, txtpos):
         painter.drawRect(chartrect)
         pen = QtGui.QPen()
         pen.setWidth(1)
@@ -110,6 +113,10 @@ class mywindow(Ui_MainWindow, QMainWindow):
         self.update()
 
     def draw_chart(self, progress):
+
+        self.timeForEachProcess = self.algo.tat  # [5, 6, 6, 1, 4]
+        self.trueSequence = [1, 2, 3, 4, 5]
+        self.trueBurstTime = self.algo.tat  # [5, 6, 6, 1, 4]
         if self.flag:
             painter = QtGui.QPainter(self.labelchart.pixmap())
             mapColor = {}
@@ -120,23 +127,20 @@ class mywindow(Ui_MainWindow, QMainWindow):
             mapColor[i] = colorIndex
             colorIndex += 1
 
-        #Color bars
-        tailPos = 10
+        # Color bars
+        tailPos_by_arrival = self.algo.arrival_time[0] * 20
+        tailPos = 10 + tailPos_by_arrival
         j = 0
         for i, k in zip(self.trueBurstTime, self.trueSequence):
             r = self.color[mapColor[k]][0]
             g = self.color[mapColor[k]][1]
             b = self.color[mapColor[k]][2]
-            print(r,g,b)
             painter.setBrush(QColor(r, g, b))
 
             # Process label
             p = "P" + str(self.trueSequence[j])
-            chartRect = QRect(tailPos, 30, i+progress + 15,  30)
-
-
-            self.update_progress( painter, chartRect, p, tailPos, i + 45 )
-
+            chartRect = QRect(tailPos, 30, i + progress + 15, 30)
+            self.update_progress(painter, chartRect, p, tailPos, i + 45)
             tailPos += i * 20
             j += 1
 
@@ -153,7 +157,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
             painter.drawText(rulerPos, 75, str(i))
             rulerPos += 21
             if i == 61:
-                 break
+                break
         self.update()
         painter.end()
 
@@ -184,9 +188,48 @@ class mywindow(Ui_MainWindow, QMainWindow):
                                      QMessageBox.Ok)
                 self.flag = False
             else:
+                # {"p1": [5, 8], "p4": [4, 5], "p3": [3, 2], "p5": [2, 3], "p2": [1, 6]} => order by arrival time
+                processes = {}
+                if self.bt1_1.value() > 0:
+                    processes["p1"] = [self.at_1.value(), self.bt1_1.value()]
+                if self.bt1_2.value() > 0:
+                    processes["p2"] = [self.at_2.value(), self.bt1_2.value()]
+                if self.bt1_3.value() > 0:
+                    processes["p3"] = [self.at_3.value(), self.bt1_3.value()]
+                if self.bt1_4.value() > 0:
+                    processes["p4"] = [self.at_4.value(), self.bt1_4.value()]
+                if self.bt1_5.value() > 0:
+                    processes["p5"] = [self.at_5.value(), self.bt1_5.value()]
+
+                # sort according to arrival time using selection sort algo
+                list_process = list(processes.items())
+                #print(list_process[0][0])
+                for i in range(len(list_process)):
+                    min_idx = i
+                    for j in range(i + 1, len(list_process)):
+                        if list_process[i][1][0] > list_process[j][1][0]:
+                            min_idx = j
+                    list_process[i], list_process[min_idx] = list_process[min_idx], list_process[i]
+
+                #print(list_process)
+                self.algo = cpu_sched.Algo()
+                self.algo.FCFS(list_process)
+
+                temp_row = ()
+                rows = []
+                for i in range(len(list_process)):
+                    temp_row = (list_process[i][0], self.algo.tat[i], self.algo.wait_time[i])
+                    rows.append(temp_row)
+
+                data=rows
+                print(data)
+                model = TableModel()
+                self.tableView.setModel(model)
+
+                #print(rows)
                 self.flag = True
 
-            if self.flag is True:
+            '''if self.flag is True:
                 self.thread1.suspended = threading.Event()
                 self.thread1.suspended.set()
                 self.thread2.suspended = threading.Event()
@@ -201,7 +244,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
                 self.thread3.start()
                 self.thread4.start()
 
-                self.action_chart()
+                self.action_chart()'''
 
     def suspend_threads(self):
         for i in range(1, 5):
@@ -215,7 +258,8 @@ class mywindow(Ui_MainWindow, QMainWindow):
         for i in range(350, 380, 10):
             self.thread1.suspended.wait()
             self.label.move(i, 70)
-            time.sleep(0.18)
+            self.label.move(i, 70)
+            time.sleep(self.algo.arrival_time[0])
         self.thread_suspend(self.thread1)
         self.label.setGeometry(QtCore.QRect(600, 190, 41, 41))
 
@@ -223,7 +267,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
         for i in range(350, 380, 5):
             self.thread2.suspended.wait()
             self.label_2.move(i, 150)
-            time.sleep(0.28)
+            time.sleep(self.algo.arrival_time[1])
         self.thread_suspend(self.thread2)
         self.label_2.setGeometry(QtCore.QRect(560, 190, 41, 41))
         self.instack()
@@ -232,7 +276,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
         for i in range(350, 380, 5):
             self.thread3.suspended.wait()
             self.label_3.move(i, 230)
-            time.sleep(0.25)
+            time.sleep(self.algo.arrival_time[2])
         self.thread_suspend(self.thread3)
         self.label_3.setGeometry(QtCore.QRect(520, 190, 41, 41))
 
@@ -240,7 +284,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
         for i in range(350, 380, 5):
             self.thread4.suspended.wait()
             self.label_4.move(i, 310)
-            time.sleep(0.20)
+            time.sleep(self.algo.arrival_time[3])
         self.thread_suspend(self.thread4)
         self.label_4.setGeometry(QtCore.QRect(480, 190, 41, 41))
 
@@ -299,7 +343,9 @@ class mywindow(Ui_MainWindow, QMainWindow):
         os.system("python simulation.py")
         self.close()
 
+#https://stackoverflow.com/questions/48928080/pyqt-signal-not-emitted-in-qabstracttablemodel
 class TableModel(QAbstractTableModel):
+
     def rowCount(self, parent):
         # How many rows are there?
         return len(data)
@@ -324,4 +370,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     w = mywindow()
     w.show()
-    sys.exit(app.exec_())
+    cpu_sched.sys.exit(app.exec_())
