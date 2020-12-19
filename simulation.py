@@ -9,13 +9,9 @@ from ui import *
 from PyQt5.QtWidgets import *
 import cpu_sched
 
+#pending todo : hook up the other algo.
 headers = ["Process", "Turnaround", "Wait-Time"]
-data = []
-        #[("P1", "12", "45"),
-        #("P2", "13", "23"),
-        #("P3", "23", "34"),
-        #("P4", "21", "98"),
-        #("P5", "34", "56")]
+
 class WorkerSignals(QObject):
     progress = pyqtSignal(int)
 
@@ -30,8 +26,7 @@ class Worker(QRunnable):
         for n in range(total_n):
             progress_pc = int(100 * float(n) / total_n)
             self.signals.progress.emit(progress_pc)
-            time.sleep(0.001)
-
+            time.sleep(0.01)
 
 class mywindow(Ui_MainWindow, QMainWindow):
     def __init__(self):
@@ -42,6 +37,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
         self.thread2 = threading.Thread(target=self.label2_move)
         self.thread3 = threading.Thread(target=self.label3_move)
         self.thread4 = threading.Thread(target=self.label4_move)
+        self.thread5 = threading.Thread(target=self.label_5)
 
         self.flag = False
 
@@ -57,8 +53,6 @@ class mywindow(Ui_MainWindow, QMainWindow):
 
         self.btnRun.clicked.connect(self.action_chart)
 
-
-
         self.threadPool = QThreadPool()
         print("Multithreading with maximum %d threads" % self.threadPool.maxThreadCount())
 
@@ -69,8 +63,6 @@ class mywindow(Ui_MainWindow, QMainWindow):
         qp.begin(self)
         self.drawLines(qp)
         qp.end()
-
-    '''dynamic lines'''
 
     def drawLines(self, qp):
         pen = QPen(Qt.black, 2, Qt.SolidLine)
@@ -127,7 +119,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
             mapColor[i] = colorIndex
             colorIndex += 1
 
-        # Color bars
+        # color bars. todo : need to draw additional bar for 0-arrival time interval
         tailPos_by_arrival = self.algo.arrival_time[0] * 20
         tailPos = 10 + tailPos_by_arrival
         j = 0
@@ -191,15 +183,15 @@ class mywindow(Ui_MainWindow, QMainWindow):
                 # {"p1": [5, 8], "p4": [4, 5], "p3": [3, 2], "p5": [2, 3], "p2": [1, 6]} => order by arrival time
                 processes = {}
                 if self.bt1_1.value() > 0:
-                    processes["p1"] = [self.at_1.value(), self.bt1_1.value()]
+                    processes["P1"] = [self.at_1.value(), self.bt1_1.value()]
                 if self.bt1_2.value() > 0:
-                    processes["p2"] = [self.at_2.value(), self.bt1_2.value()]
+                    processes["P2"] = [self.at_2.value(), self.bt1_2.value()]
                 if self.bt1_3.value() > 0:
-                    processes["p3"] = [self.at_3.value(), self.bt1_3.value()]
+                    processes["P3"] = [self.at_3.value(), self.bt1_3.value()]
                 if self.bt1_4.value() > 0:
-                    processes["p4"] = [self.at_4.value(), self.bt1_4.value()]
+                    processes["P4"] = [self.at_4.value(), self.bt1_4.value()]
                 if self.bt1_5.value() > 0:
-                    processes["p5"] = [self.at_5.value(), self.bt1_5.value()]
+                    processes["P5"] = [self.at_5.value(), self.bt1_5.value()]
 
                 # sort according to arrival time using selection sort algo
                 list_process = list(processes.items())
@@ -218,18 +210,18 @@ class mywindow(Ui_MainWindow, QMainWindow):
                 temp_row = ()
                 rows = []
                 for i in range(len(list_process)):
-                    temp_row = (list_process[i][0], self.algo.tat[i], self.algo.wait_time[i])
+                    temp_row = ((str(list_process[i][0]).upper()), self.algo.tat[i], self.algo.wait_time[i])
                     rows.append(temp_row)
-
+                #todo : make this portion appears after the movement of process to cpu and the gantt chart have been rendered/drawn
                 data=rows
                 print(data)
-                model = TableModel()
+                model = TableModel(self, data)
                 self.tableView.setModel(model)
 
                 #print(rows)
                 self.flag = True
 
-            '''if self.flag is True:
+            if self.flag is True:
                 self.thread1.suspended = threading.Event()
                 self.thread1.suspended.set()
                 self.thread2.suspended = threading.Event()
@@ -244,7 +236,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
                 self.thread3.start()
                 self.thread4.start()
 
-                self.action_chart()'''
+                self.action_chart()
 
     def suspend_threads(self):
         for i in range(1, 5):
@@ -259,7 +251,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
             self.thread1.suspended.wait()
             self.label.move(i, 70)
             self.label.move(i, 70)
-            time.sleep(self.algo.arrival_time[0])
+            time.sleep(self.algo.arrival_time[0]/10)
         self.thread_suspend(self.thread1)
         self.label.setGeometry(QtCore.QRect(600, 190, 41, 41))
 
@@ -267,7 +259,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
         for i in range(350, 380, 5):
             self.thread2.suspended.wait()
             self.label_2.move(i, 150)
-            time.sleep(self.algo.arrival_time[1])
+            time.sleep(self.algo.arrival_time[1]/10)
         self.thread_suspend(self.thread2)
         self.label_2.setGeometry(QtCore.QRect(560, 190, 41, 41))
         self.instack()
@@ -276,7 +268,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
         for i in range(350, 380, 5):
             self.thread3.suspended.wait()
             self.label_3.move(i, 230)
-            time.sleep(self.algo.arrival_time[2])
+            time.sleep(self.algo.arrival_time[2]/10)
         self.thread_suspend(self.thread3)
         self.label_3.setGeometry(QtCore.QRect(520, 190, 41, 41))
 
@@ -284,9 +276,17 @@ class mywindow(Ui_MainWindow, QMainWindow):
         for i in range(350, 380, 5):
             self.thread4.suspended.wait()
             self.label_4.move(i, 310)
-            time.sleep(self.algo.arrival_time[3])
+            time.sleep(self.algo.arrival_time[3]/10)
         self.thread_suspend(self.thread4)
         self.label_4.setGeometry(QtCore.QRect(480, 190, 41, 41))
+
+    def label5_move(self):
+        for i in range(350, 380, 5):
+            self.thread5.suspended.wait()
+            self.label_5.move(i, 370)
+            time.sleep(self.algo.arrival_time[4] / 10)
+        self.thread_suspend(self.thread5)
+        self.label_5.setGeometry(QtCore.QRect(440, 190, 41, 41))
 
     def thread_suspend(self, thread):
         if not thread.suspended.is_set():
@@ -315,8 +315,9 @@ class mywindow(Ui_MainWindow, QMainWindow):
             time.sleep(0.3)
 
     def instack(self):
-        i1, i4, i3, i2 = 600, 560, 520, 480
-        while i2 <= 780:
+        #todo : needs to order this as per arrival time
+        i1, i4, i3, i2, i5 = 600, 560, 520, 480, 440
+        while i5 <= 780:
             if i1 > 780:
                 self.label.setStyleSheet("QLabel{background:#F0F0F0;}")
                 self.label.setText("")
@@ -329,14 +330,19 @@ class mywindow(Ui_MainWindow, QMainWindow):
             if i4 > 780:
                 self.label_4.setStyleSheet("QLabel{background:#F0F0F0;}")
                 self.label_4.setText("")
+            if i5 >= 780:
+                self.label_5.setStyleSheet("QLabel{background:#F0F0F0;}")
+                self.label_5.setText("")
             self.label.move(i1, 190)
             self.label_2.move(i2, 190)
             self.label_3.move(i3, 190)
             self.label_4.move(i4, 190)
+            self.label_5.move(i5, 190)
             i1 += 10
             i2 += 10
             i3 += 10
             i4 += 10
+            i5 += 10
             time.sleep(0.3)
 
     def restart(self):
@@ -346,9 +352,14 @@ class mywindow(Ui_MainWindow, QMainWindow):
 #https://stackoverflow.com/questions/48928080/pyqt-signal-not-emitted-in-qabstracttablemodel
 class TableModel(QAbstractTableModel):
 
+    def __init__(self, parent, data, *args):
+        QAbstractTableModel.__init__(self, parent, *args)
+        self.data = data
+        #self.header = header
+
     def rowCount(self, parent):
         # How many rows are there?
-        return len(data)
+        return len(self.data)
 
     def columnCount(self, parent):
         # How many columns?
@@ -358,7 +369,7 @@ class TableModel(QAbstractTableModel):
         if role != Qt.DisplayRole:
             return QVariant()
         # What's the value of the cell at the given index?
-        return data[index.row()][index.column()]
+        return self.data[index.row()][index.column()]
 
     def headerData(self, section, orientation, role):
         if role != Qt.DisplayRole or orientation != Qt.Horizontal:

@@ -234,11 +234,13 @@ class Ui_MainWindow(object):
                 self.label_5.setObjectName("label_5")
                 self.label_5.setAlignment(QtCore.Qt.AlignCenter)
 
-                self.label_5 = QtWidgets.QLabel(self.centralwidget)
-                self.label_5.setGeometry(QtCore.QRect(560, 60, 16, 375))
-                self.label_5.setStyleSheet("background-color: rgb(170, 170, 127);")
-                self.label_5.setText("")
-                self.label_5.setObjectName("label_5")
+                #the bridge
+                self.label_51 = QtWidgets.QLabel(self.centralwidget)
+                self.label_51.setGeometry(QtCore.QRect(560, 60, 16, 375))
+                self.label_51.setStyleSheet("background-color: rgb(170, 170, 127);")
+                self.label_51.setText("")
+                self.label_51.setObjectName("label_51")
+
                 self.label_6 = QtWidgets.QLabel(self.centralwidget)
                 self.label_6.setGeometry(QtCore.QRect(780, 130, 151, 171))
                 self.label_6.setStyleSheet("image: url(cpu.png);")
