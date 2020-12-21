@@ -175,7 +175,8 @@
       <workItem from="1608096447834" duration="2837000" />
       <workItem from="1608171114582" duration="16695000" />
       <workItem from="1608251167882" duration="19153000" />
-      <workItem from="1608373196597" duration="3371000" />
+      <workItem from="1608373196597" duration="3747000" />
+      <workItem from="1608522918306" duration="1250000" />
     </task>
     <servers />
   </component>
@@ -199,22 +200,22 @@
       <screen x="0" y="23" width="1920" height="976" />
     </state>
     <state x="999" y="306" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1920.976@0.23.1920.976" timestamp="1608035054073" />
-    <state width="1721" height="98" key="GridCell.Tab.0.bottom" timestamp="1608379748923">
+    <state width="1721" height="98" key="GridCell.Tab.0.bottom" timestamp="1608524700381">
       <screen x="0" y="23" width="1920" height="976" />
     </state>
-    <state width="1721" height="98" key="GridCell.Tab.0.bottom/0.23.1920.976@0.23.1920.976" timestamp="1608379748923" />
-    <state width="1721" height="98" key="GridCell.Tab.0.center" timestamp="1608379748922">
+    <state width="1721" height="98" key="GridCell.Tab.0.bottom/0.23.1920.976@0.23.1920.976" timestamp="1608524700381" />
+    <state width="1721" height="98" key="GridCell.Tab.0.center" timestamp="1608524700381">
       <screen x="0" y="23" width="1920" height="976" />
     </state>
-    <state width="1721" height="98" key="GridCell.Tab.0.center/0.23.1920.976@0.23.1920.976" timestamp="1608379748922" />
-    <state width="1721" height="98" key="GridCell.Tab.0.left" timestamp="1608379748922">
+    <state width="1721" height="98" key="GridCell.Tab.0.center/0.23.1920.976@0.23.1920.976" timestamp="1608524700381" />
+    <state width="1721" height="98" key="GridCell.Tab.0.left" timestamp="1608524700380">
       <screen x="0" y="23" width="1920" height="976" />
     </state>
-    <state width="1721" height="98" key="GridCell.Tab.0.left/0.23.1920.976@0.23.1920.976" timestamp="1608379748922" />
-    <state width="1721" height="98" key="GridCell.Tab.0.right" timestamp="1608379748923">
+    <state width="1721" height="98" key="GridCell.Tab.0.left/0.23.1920.976@0.23.1920.976" timestamp="1608524700380" />
+    <state width="1721" height="98" key="GridCell.Tab.0.right" timestamp="1608524700381">
       <screen x="0" y="23" width="1920" height="976" />
     </state>
-    <state width="1721" height="98" key="GridCell.Tab.0.right/0.23.1920.976@0.23.1920.976" timestamp="1608379748923" />
+    <state width="1721" height="98" key="GridCell.Tab.0.right/0.23.1920.976@0.23.1920.976" timestamp="1608524700381" />
     <state x="797" y="237" width="670" height="676" key="search.everywhere.popup" timestamp="1608007990272">
       <screen x="0" y="23" width="1920" height="976" />
     </state>
@@ -223,7 +224,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$cpu_sched_algo.coverage" NAME="cpu_sched_algo Coverage Results" MODIFIED="1608267717420" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$thread1.coverage" NAME="thread1 Coverage Results" MODIFIED="1607494217343" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$simulation.coverage" NAME="simulation Coverage Results" MODIFIED="1608379748914" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$simulation.coverage" NAME="simulation Coverage Results" MODIFIED="1608524700370" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$fcfs.coverage" NAME="cpu_sched_algo Coverage Results" MODIFIED="1608218019681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$t2.coverage" NAME="t2 Coverage Results" MODIFIED="1607569612079" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>

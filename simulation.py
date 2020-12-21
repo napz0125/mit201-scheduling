@@ -41,8 +41,9 @@ class mywindow(Ui_MainWindow, QMainWindow):
 
         self.flag = False
 
-        self.pushButton.clicked.connect(self.start_threads)
-        self.pushButton_4.pressed.connect(self.restart)
+        #self.pushButton.clicked.connect(self.start_threads)
+        self.reset.pressed.connect(self.restart)
+        self.fcfs.clicked.connect(self.start_threads)
 
         self.timeForEachProcess = None  #[5, 6, 6, 1, 4]
         self.trueSequence = None #[1, 2, 3, 4, 5]
@@ -50,8 +51,6 @@ class mywindow(Ui_MainWindow, QMainWindow):
 
         self.color = [(255, 64, 0), (255, 128, 0), (255, 191, 0),
                       (255, 255, 0), (128, 255, 0)]
-
-        self.btnRun.clicked.connect(self.action_chart)
 
         self.threadPool = QThreadPool()
         print("Multithreading with maximum %d threads" % self.threadPool.maxThreadCount())
