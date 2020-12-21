@@ -68,8 +68,8 @@ class mywindow(Ui_MainWindow, QMainWindow):
 
         v_width_fixed = 560
         x_fixed = 345
-        y_axis_and_heigth_1 = 65
-        y_axis_and_heigth_2 = 115
+        y_axis_and_heigth_1 = 95
+        y_axis_and_heigth_2 = 145
         for i in range(5):
             qp.setPen(pen)
             qp.drawLine(x_fixed, y_axis_and_heigth_1, v_width_fixed, y_axis_and_heigth_1)
