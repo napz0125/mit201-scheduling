@@ -138,8 +138,6 @@ class Ui_MainWindow(object):
                 self.bt_priority5.setObjectName("bt_priority5")
                 self.bt_priority5.setValue(1)
 
-
-
                 self.prsId1 = QtWidgets.QLabel(self.centralwidget)
                 self.prsId1.setGeometry(QtCore.QRect(100, 100, 71, 25))
                 self.prsId1.setFont(font)
