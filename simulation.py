@@ -118,8 +118,8 @@ class mywindow(Ui_MainWindow, QMainWindow):
 
     def draw_chart(self, progress):
         self.timeForEachProcess = self.algo.tat  # [5, 6, 6, 1, 4]
-        self.trueSequence = [1, 2, 3, 4, 5, 6]
-        self.trueBurstTime = self.algo.tat  # [5, 6, 6, 1, 4]
+        self.trueSequence = self.algo.trueSequence #[1, 2, 3, 4, 5, 1]
+        self.trueBurstTime = self.algo.tat #[1, 6, 1, 2, 4, 3]
         if self.flag:
             painter = QtGui.QPainter(self.labelchart.pixmap())
             mapColor = {}
@@ -170,8 +170,9 @@ class mywindow(Ui_MainWindow, QMainWindow):
         if self.flag is True:
             self.algo = cpu_sched.Algo()
             self.algo.PREEMPTIVE_PRIORITY()
+            #print(self.algo.list_by_priority)
+            print(self.algo.tat)
             self.start_thread()
-
 
     def start_fcfs(self):
         print("Threads num: {}".format(threading.activeCount()))

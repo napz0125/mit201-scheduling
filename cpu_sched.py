@@ -36,44 +36,52 @@ class Algo():
 
     def PREEMPTIVE_PRIORITY(self):
         #assumption : already sorted by arrival time
-        arrival_burst_priority = {"p1": [0, 8, 1], "p4": [1, 5, 3], "p3": [2, 2, 2], "p5": [3, 3, 4], "p2": [4, 6, 5]}
-        self.list_arr_burst_pri = list(arrival_burst_priority.items())
-        list_by_priority = {} #dictionary that will hold the sorted process by priority
+        arrival_burst_priority = {"p1": [0, 4, 1], "p4": [1, 8, 3], "p3": [2, 2, 2], "p5": [3, 4, 4], "p2": [4, 6, 5]}
+        print(arrival_burst_priority)
+        list_arr_burst_pri = list(arrival_burst_priority.items())
+
+        list_by_priority = [] #dictionary that will hold the sorted process by priority
         sequence = 0
-        #sorting by priority using selection sort
-        # algorithm
-        #print(list_arrival_burst_priority[0][1][2])
-        print(self.list_arr_burst_pri)
-        for i in range(len(self.list_arr_burst_pri)):
+        temp_i_burst = 0
+        temp_j_burst = 0
+
+        #sorting by priority using selection sort algorithm
+        for i in range(len(list_arr_burst_pri)):
             # Find the minimum element in remaining
             # unsorted array
             min_idx = i
             sequence += 1 #serves as key of the "by_priority" dict variable
-            for j in range(i + 1, len(self.list_arr_burst_pri)):
-                if self.list_arr_burst_pri[i][1][2] > self.list_arr_burst_pri[j][1][2]:
+            for j in range(i + 1, len(list_arr_burst_pri)):
+                if list_arr_burst_pri[i][1][2] > list_arr_burst_pri[j][1][2]:
                     min_idx = j
-                    list_by_priority[sequence] = self.list_arr_burst_pri[i]
-                    sequence += 1
-                    list_by_priority[sequence] = self.list_arr_burst_pri[min_idx]
-                    remaining_burst = self.list_arr_burst_pri[i][1][1] - self.list_arr_burst_pri[min_idx][1][1]
-                    self.list_arr_burst_pri[i][1][1] = remaining_burst
+                    temp_j_burst = list_arr_burst_pri[j][1][1]
+                    list_by_priority.append([list_arr_burst_pri[i][0],list_arr_burst_pri[i][1][0],temp_j_burst,list_arr_burst_pri[i][1][2]])
 
-            list_by_priority[sequence] = self.list_arr_burst_pri[min_idx]
-            self.list_arr_burst_pri[i], self.list_arr_burst_pri[min_idx] = self.list_arr_burst_pri[min_idx], self.list_arr_burst_pri[i]
+            list_by_priority.append([list_arr_burst_pri[min_idx][0],list_arr_burst_pri[min_idx][1][0],list_arr_burst_pri[min_idx][1][1], list_arr_burst_pri[min_idx][1][2]])
+            list_arr_burst_pri[i], list_arr_burst_pri[min_idx] = list_arr_burst_pri[min_idx], list_arr_burst_pri[i]
 
         self.tat = []
         ganttchart = []
         wait_time = []
         self.arrival_time = []
         tattemp=0
-        print(list_by_priority)
-        list_by_priority = list(list_by_priority.items())
-        #print(list_by_priority[0][1][1][1]) #burst position
-        self.tat.insert(0, list_by_priority[0][1][1][1] + list_by_priority[0][1][1][0])
-        self.arrival_time.insert(0, list_by_priority[0][1][1][0])
+        self.trueSequence = []
+        newList = []
+
+        for i in range(len(list_by_priority)):
+            for j in range(i+1, len(list_by_priority)):
+                if list_by_priority[i][0] == list_by_priority[j][0]:
+                    print(list_by_priority[i], list_by_priority[j])
+                    remaining_burst = list_by_priority[j][2] - list_by_priority[i][2]
+                    list_by_priority[j][2] = remaining_burst
+            self.trueSequence.append(list_by_priority[i][3])
+
+
+        self.tat.insert(0, list_by_priority[0][1] + list_by_priority[0][2])
+        self.arrival_time.insert(0, list_by_priority[0][1])
         for i in range(1, len(list_by_priority)):
-            self.tat.insert(i, list_by_priority[i][1][1][1])
-            self.arrival_time.insert(i, list_by_priority[i][1][1][0])
+            self.tat.insert(i, list_by_priority[i][2])
+            self.arrival_time.insert(i, list_by_priority[i][1])
 
         for i in range(0, len(self.tat)):
             tattemp += self.tat[i]
@@ -81,10 +89,11 @@ class Algo():
             wait_temp = tattemp - self.arrival_time[i]
             wait_time.insert(i, wait_temp)
 
-        '''print("tat:", self.tat)
-        print("gantt chart", ganttchart)
-        print("arrival :" , self.arrival_time)
-        print("wait time", wait_time)
-        print(self.list_arr_burst_pri)'''
+        print(list_by_priority)
+        print(self.trueSequence)
+
+
+
+
 
 
