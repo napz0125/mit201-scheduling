@@ -1,3 +1,10 @@
+'''
+Author : Napsa Usman
+MIT 201 CPU Scheduling assignment
+Western Mindanao State University, Philippines
+SY: 2020-2021
+Prof: Engineer Odon Maravillas Jr.
+'''
 import os, sys, time
 import subprocess, threading
 from PyQt5.QtGui import QIcon, QPainter, QBrush, QPen
@@ -7,13 +14,11 @@ from ui import *
 from PyQt5.QtWidgets import *
 import cpu_sched
 
-
-# pending todo : plug in up the preemptive algo.
-# todo : input process order to be as per checked box
+#todo : bugs with preemptive charting and table calculation error
+# todo : input process order to be as per the no of checked box. both for fcfs and preemptive
 
 class WorkerSignals(QObject):
     progress = pyqtSignal(int)
-
 
 class Worker(QRunnable):
     def __init__(self):
@@ -27,7 +32,6 @@ class Worker(QRunnable):
             progress_pc = int(100 * float(n) / total_n)
             self.signals.progress.emit(progress_pc)
             time.sleep(0.01)
-
 
 class mywindow(Ui_MainWindow, QMainWindow):
     def __init__(self):
@@ -117,9 +121,9 @@ class mywindow(Ui_MainWindow, QMainWindow):
         self.update()
 
     def draw_chart(self, progress):
-        self.timeForEachProcess = self.algo.tat  # [5, 6, 6, 1, 4]
-        self.trueSequence = self.algo.trueSequence #[1, 2, 3, 4, 5, 1]
-        self.trueBurstTime = self.algo.tat #[1, 6, 1, 2, 4, 3]
+        self.timeForEachProcess = self.algo.tat
+        self.trueSequence = self.algo.trueSequence
+        self.trueBurstTime = self.algo.tat
         if self.flag:
             painter = QtGui.QPainter(self.labelchart.pixmap())
             mapColor = {}
@@ -170,8 +174,14 @@ class mywindow(Ui_MainWindow, QMainWindow):
         if self.flag is True:
             self.algo = cpu_sched.Algo()
             self.algo.PREEMPTIVE_PRIORITY()
-            #print(self.algo.list_by_priority)
-            print(self.algo.tat)
+
+            rows = []
+            for i in range(len(self.algo.list_by_priority)):
+                temp_row = ((str(self.algo.list_by_priority[i][0]).upper()), self.algo.tat[i], self.algo.wait_time[i])
+                rows.append(temp_row)
+
+            self.data = rows
+
             self.start_thread()
 
     def start_fcfs(self):
@@ -257,19 +267,16 @@ class mywindow(Ui_MainWindow, QMainWindow):
             self.thread2.start()
             self.thread3.start()
             self.thread4.start()
-            #self.action_table()
+            self.action_table()
             self.action_chart()
-
 
     def suspend_threads(self):
         for i in range(1, 5):
             self.thread_suspend(eval("self.thread" + str(i)))
 
-
     def resume_threads(self):
         for i in range(1, 5):
             self.thread_resume(eval("self.thread" + str(i)))
-
 
     def label_move(self):
         for i in range(350, 380, 10):
@@ -280,7 +287,6 @@ class mywindow(Ui_MainWindow, QMainWindow):
         self.thread_suspend(self.thread1)
         self.label.setGeometry(QtCore.QRect(600, 190, 41, 41))
 
-
     def label2_move(self):
         for i in range(350, 380, 5):
             self.thread2.suspended.wait()
@@ -290,7 +296,6 @@ class mywindow(Ui_MainWindow, QMainWindow):
         self.label_2.setGeometry(QtCore.QRect(560, 190, 41, 41))
         self.instack()
 
-
     def label3_move(self):
         for i in range(350, 380, 5):
             self.thread3.suspended.wait()
@@ -298,7 +303,6 @@ class mywindow(Ui_MainWindow, QMainWindow):
             time.sleep(self.algo.arrival_time[2] / 10)
         self.thread_suspend(self.thread3)
         self.label_3.setGeometry(QtCore.QRect(520, 190, 41, 41))
-
 
     def label4_move(self):
         for i in range(350, 380, 5):
@@ -308,7 +312,6 @@ class mywindow(Ui_MainWindow, QMainWindow):
         self.thread_suspend(self.thread4)
         self.label_4.setGeometry(QtCore.QRect(480, 190, 41, 41))
 
-
     def label5_move(self):
         for i in range(350, 380, 5):
             self.thread5.suspended.wait()
@@ -317,18 +320,15 @@ class mywindow(Ui_MainWindow, QMainWindow):
         self.thread_suspend(self.thread5)
         self.label_5.setGeometry(QtCore.QRect(440, 190, 41, 41))
 
-
     def thread_suspend(self, thread):
         if not thread.suspended.is_set():
             return
         thread.suspended.clear()
 
-
     def thread_resume(self, thread):
         if thread.suspended.is_set():
             return
         thread.suspended.set()
-
 
     def update_position(self):
         for i in range(350, 380, 10):
@@ -336,7 +336,6 @@ class mywindow(Ui_MainWindow, QMainWindow):
             # self.chartRect.translate(i)
             time.sleep(0.20)
         self.thread_suspend(self.thread_chart)
-
 
     def chartstack(self):
         i = 480
@@ -347,10 +346,26 @@ class mywindow(Ui_MainWindow, QMainWindow):
             i += 10
             time.sleep(0.3)
 
-
     def instack(self):
-        # todo : needs to order this as per arrival time and priority
-        i1, i4, i3, i2, i5 = 600, 560, 520, 480, 440
+        # todo : preemptive priority process switching
+        i1 = 0
+        i2 = 0
+        i3 = 0
+        i4 = 0
+        i5 = 0
+        sequence = self.algo.trueSequence
+        for i in range(len(sequence)):
+            if i == 1:
+                i1 = 600
+            if i == 2:
+                i2 = 560
+            if i == 3:
+                i3 = 520
+            if i == 4:
+                i4 = 480
+            if i == 5:
+                i5 = 440
+        #i1, i4, i3, i2, i5 = 600, 560, 520, 480, 440
         while i5 <= 780:
             if i1 > 780:
                 self.label.setStyleSheet("QLabel{background:#F0F0F0;}")
@@ -379,15 +394,12 @@ class mywindow(Ui_MainWindow, QMainWindow):
             i5 += 10
             time.sleep(0.3)
 
-
     def restart(self):
         os.system("python simulation.py")
         self.close()
 
-
 # https://stackoverflow.com/questions/48928080/pyqt-signal-not-emitted-in-qabstracttablemodel
 class TableModel(QAbstractTableModel):
-
     def __init__(self, parent, data, headers, *args):
         QAbstractTableModel.__init__(self, parent, *args)
         self.data = data
