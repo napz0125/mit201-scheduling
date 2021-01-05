@@ -1,6 +1,6 @@
 '''
 Author : Napsa Usman
-MIT 201 CPU Scheduling assignment
+MIT 201 CPU Scheduling
 Western Mindanao State University, Philippines
 SY: 2020-2021
 Prof: Engineer Odon Maravillas Jr.
@@ -12,9 +12,11 @@ from PyQt5.QtCore import *
 # from PyQt5 import *
 from ui import *
 from PyQt5.QtWidgets import *
+from itertools import groupby
+import process
 import cpu_sched
 
-#todo : bugs with preemptive charting and table calculation error
+
 # todo : input process order to be as per the no of checked box. both for fcfs and preemptive
 
 class WorkerSignals(QObject):
@@ -42,17 +44,11 @@ class mywindow(Ui_MainWindow, QMainWindow):
         self.thread2 = threading.Thread(target=self.label2_move)
         self.thread3 = threading.Thread(target=self.label3_move)
         self.thread4 = threading.Thread(target=self.label4_move)
-        self.thread5 = threading.Thread(target=self.label_5)
-
+        self.thread5 = threading.Thread(target=self.label5_move)
         self.flag = False
-
         self.reset.pressed.connect(self.restart)
         self.fcfs.clicked.connect(self.start_fcfs)
         self.preemptive.clicked.connect(self.start_preemptive_priority)
-
-        self.timeForEachProcess = None
-        self.trueSequence = None
-        self.trueBurstTime = None
 
         self.color = [(255, 64, 0), (255, 128, 0), (255, 191, 0),
                       (255, 255, 0), (128, 255, 0), (128, 255, 0)]
@@ -134,7 +130,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
             mapColor[i] = colorIndex
             colorIndex += 1
 
-        # color bars. todo : need to draw additional bar for  > 1 arrival time interval
+        # color bars.
         tailPos_by_arrival = self.algo.arrival_time[0] * 20
         tailPos = 10 + tailPos_by_arrival
         j = 0
@@ -145,7 +141,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
             painter.setBrush(QColor(r, g, b))
 
             # Process label
-            p = "P" + str(self.trueSequence[j])
+            p = str(self.trueSequence[j])
             chartRect = QRect(tailPos, 30, i + progress + 15, 30)
             self.update_progress(painter, chartRect, p, tailPos, i + 45)
             tailPos += i * 20
@@ -154,7 +150,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
         # Ruler
         rulerPos = 10
         sumTime = sum(self.timeForEachProcess)
-        for i in range(sumTime + 1):
+        for i in range(sumTime):
             painter.setBrush(QColor(0, 0, 0))
             painter.drawRect(rulerPos, 77, 1, 10)
             pen = QtGui.QPen()
@@ -172,16 +168,81 @@ class mywindow(Ui_MainWindow, QMainWindow):
         self.fcfs.hide()
         self.validate_input()
         if self.flag is True:
+            if self.flag is True:
+                # {"p1": [5, 8], "p4": [4, 5], "p3": [3, 2], "p5": [2, 3], "p2": [1, 6]} => order by arrival time
+                processes = []
+                if self.bt1_1.value() > 0:
+                    p = process.Process()
+                    p.p_id = "P1"
+                    p.arrival_time = self.at_1.value()
+                    p.burst_time = self.bt1_1.value()
+                    p.priority = self.bt_priority1.value()
+                    processes.append(p)
+
+                if self.bt1_2.value() > 0:
+                    p = process.Process()
+                    p.p_id = "P2"
+                    p.arrival_time = self.at_2.value()
+                    p.burst_time = self.bt1_2.value()
+                    p.priority = self.bt_priority2.value()
+                    processes.append(p)
+
+                if self.bt1_3.value() > 0:
+                    p = process.Process()
+                    p.p_id = "P3"
+                    p.arrival_time = self.at_3.value()
+                    p.burst_time = self.bt1_3.value()
+                    p.priority = self.bt_priority3.value()
+                    processes.append(p)
+
+                if self.bt1_4.value() > 0:
+                    p = process.Process()
+                    p.p_id = "P4"
+                    p.arrival_time = self.at_4.value()
+                    p.burst_time = self.bt1_4.value()
+                    p.priority = self.bt_priority4.value()
+                    processes.append(p)
+
+                if self.bt1_5.value() > 0:
+                    p = process.Process()
+                    p.p_id = "P5"
+                    p.arrival_time = self.at_5.value()
+                    p.burst_time = self.bt1_5.value()
+                    p.priority = self.bt_priority5.value()
+                    processes.append(p)
+
+                # sort according to arrival time using selection sort algo
+                for i in range(len(processes)):
+                    min_idx = i
+                    for j in range(i + 1, len(processes)):
+                        if processes[i].arrival_time> processes[j].arrival_time:
+                            min_idx = j
+                    processes[i], processes[min_idx] = processes[min_idx], processes[i]
+
             self.algo = cpu_sched.Algo()
-            self.algo.PREEMPTIVE_PRIORITY()
+            self.algo.PREEMPTIVE_PRIORITY(processes)
+
+            temp_rows = []
+            #for i in range(len(self.processes)):
+            #    temp_row = (str(self.algo.processes[i][0]).upper()), self.algo.tat[i], self.algo.wait_time[i]
+            #    temp_rows.append(temp_row)
+
+            #res = [list(v) for l, v in groupby(sorted(temp_rows, key=lambda x:x[0]), lambda x: x[0])]
 
             rows = []
-            for i in range(len(self.algo.list_by_priority)):
-                temp_row = ((str(self.algo.list_by_priority[i][0]).upper()), self.algo.tat[i], self.algo.wait_time[i])
-                rows.append(temp_row)
+            """_tat, _wait_time = 0, 0
+            for i in range(len(res)):
+                if len(res[i]) > 1:
+                    for j in range(len(res[i])):
+                        (process, tat, wait_time) = res[i][j]
+                        _tat += tat
+                        _wait_time += wait_time
+                    rows.append([process, _tat, _wait_time])
+                else:
+                    (process, tat, wait_time) = res[i][0]
+                    rows.append([process, tat, wait_time])"""
 
             self.data = rows
-
             self.start_thread()
 
     def start_fcfs(self):
@@ -194,36 +255,60 @@ class mywindow(Ui_MainWindow, QMainWindow):
             self.validate_input()
             if self.flag is True:
                 # {"p1": [5, 8], "p4": [4, 5], "p3": [3, 2], "p5": [2, 3], "p2": [1, 6]} => order by arrival time
-                processes = {}
+                processes = []
                 if self.bt1_1.value() > 0:
-                    processes["P1"] = [self.at_1.value(), self.bt1_1.value()]
+                    p = process.Process()
+                    p.p_id = "P1"
+                    p.arrival_time = self.at_1.value()
+                    p.burst_time = self.bt1_1.value()
+                    processes.append(p)
+
                 if self.bt1_2.value() > 0:
-                    processes["P2"] = [self.at_2.value(), self.bt1_2.value()]
+                    p = process.Process()
+                    p.p_id = "P2"
+                    p.arrival_time = self.at_2.value()
+                    p.burst_time = self.bt1_2.value()
+                    processes.append(p)
+
                 if self.bt1_3.value() > 0:
-                    processes["P3"] = [self.at_3.value(), self.bt1_3.value()]
+                    p = process.Process()
+                    p.p_id = "P3"
+                    p.arrival_time = self.at_3.value()
+                    p.burst_time = self.bt1_3.value()
+                    processes.append(p)
+
                 if self.bt1_4.value() > 0:
-                    processes["P4"] = [self.at_4.value(), self.bt1_4.value()]
+                    p = process.Process()
+                    p.p_id = "P4"
+                    p.arrival_time = self.at_4.value()
+                    p.burst_time = self.bt1_4.value()
+                    processes.append(p)
+
                 if self.bt1_5.value() > 0:
-                    processes["P5"] = [self.at_5.value(), self.bt1_5.value()]
+                    p = process.Process()
+                    p.p_id = "P5"
+                    p.arrival_time = self.at_5.value()
+                    p.burst_time = self.bt1_5.value()
+                    processes.append(p)
 
                 # sort according to arrival time using selection sort algo
-                list_process = list(processes.items())
-                # print(list_process[0][0])
-                for i in range(len(list_process)):
+                for i in range(len(processes)):
                     min_idx = i
-                    for j in range(i + 1, len(list_process)):
-                        if list_process[i][1][0] > list_process[j][1][0]:
+                    for j in range(i + 1, len(processes)):
+                        if processes[i].arrival_time > processes[j].arrival_time:
                             min_idx = j
-                    list_process[i], list_process[min_idx] = list_process[min_idx], list_process[i]
+                    processes[i], processes[min_idx] = processes[min_idx], processes[i]
 
-                # print(list_process)
                 self.algo = cpu_sched.Algo()
-                self.algo.FCFS(list_process)
+                for i in range(len(processes)):
+                    print("input parameter : ", processes[i].arrival_time, processes[i].burst_time, processes[i].p_id)
+
+                self.algo.FCFS(processes)
 
                 temp_row = ()
                 rows = []
-                for i in range(len(list_process)):
-                    temp_row = ((str(list_process[i][0]).upper()), self.algo.tat[i], self.algo.wait_time[i])
+                for i in range(len(processes)):
+                    temp_row = ((processes[i].p_id, self.algo.tat[i], self.algo.wait_time[i]))
                     rows.append(temp_row)
 
                 self.data = rows
@@ -348,6 +433,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
 
     def instack(self):
         # todo : preemptive priority process switching
+        # todo : label color scheme is not matching with the color bar
         i1 = 0
         i2 = 0
         i3 = 0
