@@ -19,10 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="67339960-346f-422a-9c36-bc4ae3a2a392" name="Default Changelist" comment="">
+    <list default="true" id="67339960-346f-422a-9c36-bc4ae3a2a392" name="Default Changelist" comment="preemptive priority&#10;changed some process object">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cpu_sched.py" beforeDir="false" afterPath="$PROJECT_DIR$/cpu_sched.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/simulation_fcfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +59,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.simulation">
+  <component name="RunManager" selected="Python.simulation_fcfs">
     <configuration name="p" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CPU-scheduling-simulation" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -103,7 +104,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="priority" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="p2_bk" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CPU-scheduling-simulation" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -116,7 +117,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/priority.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/p2_bk.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -125,7 +126,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="priority_sched" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="simulation_fcfs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CPU-scheduling-simulation" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -138,7 +139,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/priority_sched.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/simulation_fcfs.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -147,7 +148,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="simulation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="simulation_pp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CPU-scheduling-simulation" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -160,7 +161,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/simulation.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/simulation_pp.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -171,11 +172,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.simulation" />
+        <item itemvalue="Python.simulation_fcfs" />
+        <item itemvalue="Python.simulation_pp" />
+        <item itemvalue="Python.p2_bk" />
         <item itemvalue="Python.p2" />
         <item itemvalue="Python.p" />
-        <item itemvalue="Python.priority" />
-        <item itemvalue="Python.priority_sched" />
       </list>
     </recent_temporary>
   </component>
@@ -220,8 +221,23 @@
       <workItem from="1609552547652" duration="15337000" />
       <workItem from="1609631544047" duration="25094000" />
       <workItem from="1609736722295" duration="21554000" />
-      <workItem from="1609825570215" duration="6735000" />
+      <workItem from="1609825570215" duration="7098000" />
+      <workItem from="1609912656409" duration="7086000" />
+      <workItem from="1609926240409" duration="5622000" />
+      <workItem from="1609980818383" duration="5370000" />
+      <workItem from="1610066538728" duration="4559000" />
+      <workItem from="1610325674095" duration="19778000" />
+      <workItem from="1610447569092" duration="2824000" />
+      <workItem from="1610672670795" duration="620000" />
     </task>
+    <task id="LOCAL-00001" summary="preemptive priority&#10;changed some process object">
+      <created>1609840451516</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1609840451516</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,45 +255,63 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="preemptive priority&#10;changed some process object" />
+    <option name="LAST_COMMIT_MESSAGE" value="preemptive priority&#10;changed some process object" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="999" y="306" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1608035054073">
       <screen x="0" y="23" width="1920" height="976" />
     </state>
     <state x="999" y="306" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1920.976@0.23.1920.976" timestamp="1608035054073" />
+    <state x="777" y="425" key="#com.jetbrains.python.refactoring.move.PyMakeFunctionTopLevelDialog" timestamp="1609934427086">
+      <screen x="0" y="23" width="1920" height="976" />
+    </state>
+    <state x="777" y="425" key="#com.jetbrains.python.refactoring.move.PyMakeFunctionTopLevelDialog/0.23.1920.976@0.23.1920.976" timestamp="1609934427086" />
     <state x="136" y="123" width="1563" height="775" key="DiffContextDialog" timestamp="1608723223511">
       <screen x="0" y="23" width="1920" height="976" />
     </state>
     <state x="136" y="123" width="1563" height="775" key="DiffContextDialog/0.23.1920.976@0.23.1920.976" timestamp="1608723223511" />
-    <state width="1878" height="220" key="GridCell.Tab.0.bottom" timestamp="1609839818308">
+    <state width="1672" height="256" key="GridCell.Tab.0.bottom" timestamp="1610455376022">
       <screen x="0" y="23" width="1920" height="976" />
     </state>
-    <state width="1878" height="220" key="GridCell.Tab.0.bottom/0.23.1920.976@0.23.1920.976" timestamp="1609839818308" />
-    <state width="1878" height="220" key="GridCell.Tab.0.center" timestamp="1609839818308">
+    <state width="1672" height="256" key="GridCell.Tab.0.bottom/0.23.1920.976@0.23.1920.976" timestamp="1610455376022" />
+    <state width="1705" height="206" key="GridCell.Tab.0.bottom/0.23.1920.977@0.23.1920.977" timestamp="1610031285923" />
+    <state width="1672" height="256" key="GridCell.Tab.0.center" timestamp="1610455376022">
       <screen x="0" y="23" width="1920" height="976" />
     </state>
-    <state width="1878" height="220" key="GridCell.Tab.0.center/0.23.1920.976@0.23.1920.976" timestamp="1609839818308" />
-    <state width="1878" height="220" key="GridCell.Tab.0.left" timestamp="1609839818307">
+    <state width="1672" height="256" key="GridCell.Tab.0.center/0.23.1920.976@0.23.1920.976" timestamp="1610455376022" />
+    <state width="1705" height="206" key="GridCell.Tab.0.center/0.23.1920.977@0.23.1920.977" timestamp="1610031285923" />
+    <state width="1672" height="256" key="GridCell.Tab.0.left" timestamp="1610455376021">
       <screen x="0" y="23" width="1920" height="976" />
     </state>
-    <state width="1878" height="220" key="GridCell.Tab.0.left/0.23.1920.976@0.23.1920.976" timestamp="1609839818307" />
-    <state width="1878" height="220" key="GridCell.Tab.0.right" timestamp="1609839818308">
+    <state width="1672" height="256" key="GridCell.Tab.0.left/0.23.1920.976@0.23.1920.976" timestamp="1610455376021" />
+    <state width="1705" height="206" key="GridCell.Tab.0.left/0.23.1920.977@0.23.1920.977" timestamp="1610031285922" />
+    <state width="1672" height="256" key="GridCell.Tab.0.right" timestamp="1610455376022">
       <screen x="0" y="23" width="1920" height="976" />
     </state>
-    <state width="1878" height="220" key="GridCell.Tab.0.right/0.23.1920.976@0.23.1920.976" timestamp="1609839818308" />
-    <state x="797" y="237" width="670" height="676" key="search.everywhere.popup" timestamp="1608007990272">
+    <state width="1672" height="256" key="GridCell.Tab.0.right/0.23.1920.976@0.23.1920.976" timestamp="1610455376022" />
+    <state width="1705" height="206" key="GridCell.Tab.0.right/0.23.1920.977@0.23.1920.977" timestamp="1610031285923" />
+    <state x="560" y="238" key="Vcs.Push.Dialog.v2" timestamp="1609840457075">
       <screen x="0" y="23" width="1920" height="976" />
     </state>
-    <state x="797" y="237" width="670" height="676" key="search.everywhere.popup/0.23.1920.976@0.23.1920.976" timestamp="1608007990272" />
+    <state x="560" y="238" key="Vcs.Push.Dialog.v2/0.23.1920.976@0.23.1920.976" timestamp="1609840457075" />
+    <state x="797" y="237" width="670" height="676" key="search.everywhere.popup" timestamp="1610010330260">
+      <screen x="0" y="23" width="1920" height="976" />
+    </state>
+    <state x="797" y="237" width="670" height="676" key="search.everywhere.popup/0.23.1920.976@0.23.1920.976" timestamp="1610010330260" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$queue.coverage" NAME="queue Coverage Results" MODIFIED="1609428252664" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$p2_bk.coverage" NAME="p2_bk Coverage Results" MODIFIED="1610352969144" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$priority_sched_bk.coverage" NAME="priority_sched_bk Coverage Results" MODIFIED="1609412811302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$priority.coverage" NAME="priority Coverage Results" MODIFIED="1609752352169" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$cpu_sched_algo.coverage" NAME="cpu_sched_algo Coverage Results" MODIFIED="1608267717420" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$P2_PY.coverage" NAME="priority_sched Coverage Results" MODIFIED="1609427752828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$thread1.coverage" NAME="thread1 Coverage Results" MODIFIED="1607494217343" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$simulation.coverage" NAME="simulation Coverage Results" MODIFIED="1609839719090" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$simulation.coverage" NAME="simulation Coverage Results" MODIFIED="1610450312813" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$fcfs.coverage" NAME="cpu_sched_algo Coverage Results" MODIFIED="1608218019681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$simulation_pp.coverage" NAME="simulation_pp Coverage Results" MODIFIED="1610450353124" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$q.coverage" NAME="q Coverage Results" MODIFIED="1609498016568" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$p2.coverage" NAME="p2 Coverage Results" MODIFIED="1609837942918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CPU_scheduling_simulation$cpu_sched.coverage" NAME="cpu_sched Coverage Results" MODIFIED="1608740336302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

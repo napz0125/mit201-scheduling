@@ -8,44 +8,73 @@ class Algo():
         super().__init__()
 
     def FCFS(self, params):
-        #All processed in here are already in ordered by arrival time
-        process_by_AT = params
+        #order by arrival time
+        process_by_AT = sorted(params, key=lambda proc: proc.arrival_time)
 
+        total_return_time = 0
         self.tat = []
-        self.tat.insert(0, process_by_AT[0].arrival_time + process_by_AT[0].burst_time)
+        self.wait_time = []
         self.trueSequence = []
         self.arrival_time = []
-        self.arrival_time.insert(0, process_by_AT[0].arrival_time)
+        gantt = []
+
+        # initialize
+        total_waiting_time = 0
+        total_turnaround_time = 0
+        total_response_time = 0
+        total_return_time = 0
+
+        process_by_AT[0].return_time = process_by_AT[0].burst_time
+        process_by_AT[0].turnaround_time = process_by_AT[0].return_time - process_by_AT[0].arrival_time
+        process_by_AT[0].response_time = 0
+        process_by_AT[0].waiting_time = 0
+
+        gantt.append((process_by_AT[0].p_id, (total_return_time, process_by_AT[0].burst_time),process_by_AT[0].arrival_time))
+        self.trueSequence.append(process_by_AT[0].p_id)
+
+        total_response_time += process_by_AT[0].response_time
+        total_waiting_time += process_by_AT[0].waiting_time
+        total_turnaround_time += process_by_AT[0].turnaround_time
+        total_return_time += process_by_AT[0].burst_time
+        self.wait_time.append(process_by_AT[0].waiting_time)
+        self.tat.append(process_by_AT[0].arrival_time + process_by_AT[0].burst_time)
 
         for i in range(1, len(process_by_AT)):
-            self.tat.insert(i, process_by_AT[i].burst_time)
-            self.arrival_time.insert(i,  process_by_AT[i].arrival_time)
+            process_by_AT[i].response_time = total_return_time - process_by_AT[i].arrival_time
+            process_by_AT[i].waiting_time = total_return_time - process_by_AT[i].arrival_time
+            process_by_AT[i].return_time = total_return_time + process_by_AT[i].burst_time
+            process_by_AT[i].turnaround_time = process_by_AT[i].return_time - process_by_AT[i].arrival_time
 
-        for i in range(len(process_by_AT)):
+            gantt.append((process_by_AT[i].p_id, (total_return_time, process_by_AT[i].burst_time), process_by_AT[i].arrival_time))
+            if process_by_AT[i].waiting_time < 0 :
+                self.wait_time.append(0)
+            else:
+                self.wait_time.append(process_by_AT[i].waiting_time )
             self.trueSequence.append(process_by_AT[i].p_id)
-            self.trueSequence.append(process_by_AT[i].p_id)
 
-        self.forgantt = []
-        tattemp = 0
-        self.wait_time = []
-        wait_temp = 0
-        tattemp = 0
+            self.tat.append(process_by_AT[i].burst_time)
+            #update total
+            total_response_time += process_by_AT[i].response_time
+            total_waiting_time += process_by_AT[i].waiting_time
+            total_turnaround_time += process_by_AT[i].turnaround_time
+            total_return_time += process_by_AT[i].burst_time
 
-        for i in range(0, len(self.tat)):
-            tattemp += self.tat[i]
-            self.forgantt.insert(i, tattemp)
-            wait_temp = tattemp - self.arrival_time[i]
-            self.wait_time.insert(i, wait_temp)
 
-        self.wait_time[0] = 0 #update position 0 to 0 waiting time
+        for i in range(len(gantt)):
+            self.arrival_time.append(gantt[i][2])
+            #self.tat.append(gantt[i][1][1])
 
-        print("tat %s, true sequence : %s" %(self.tat, self.trueSequence))
+        #for i in range(len(process_by_AT)):
+        #    print(process_by_AT[i].p_id)
+
+        print(gantt)
+        print(self.trueSequence)
+        print(self.arrival_time)
+        print(self.tat)
 
     def PREEMPTIVE_PRIORITY(self, params):
-
         processes = params
         gantt = []  # (,())
-
         # initialize
         total_waiting_time = 0
         total_turnaround_time = 0
@@ -60,6 +89,9 @@ class Algo():
 
         # sort by arrival_time
         proc = sorted(processes, key=lambda proc: proc.arrival_time)
+
+        for i in range(len(processes)):
+            print(processes[i].p_id, processes[i].arrival_time)
 
         response = []
         prev, st, ct = 0, 0, 0
@@ -104,10 +136,10 @@ class Algo():
 
                     if gantt_l > 0:
                         prev_id = gantt[gantt_l - 1][0]
+                        print("preempted : " , prev_id, processes[prev].p_id)
 
                     if prev_id != processes[prev].p_id:
-                        gantt.append(
-                            (processes[prev].p_id, st, ct, processes[prev].turnaround_time, "preempted"))  # napsa
+                        gantt.append((processes[prev].p_id, st, ct, processes[prev].turnaround_time, "preempted"))  # napsa
                     ct = 1
                     st = t
                 else:
@@ -116,8 +148,7 @@ class Algo():
                 # to calculate responce time || process ran for first time
                 if (response[short] == False):
                     response[short] = True
-                    processes[short].response_time = t - \
-                                                     processes[short].arrival_time
+                    processes[short].response_time = t - processes[short].arrival_time
 
                 # Reduce remaining time by one
                 rt[short] -= 1
@@ -133,6 +164,7 @@ class Algo():
 
                         if gantt_l > 0:
                             prev_id = gantt[gantt_l - 1][0]
+                            print("completed : ", prev_id, processes[prev].p_id)
 
                         if prev_id != processes[prev].p_id:
                             gantt.append((processes[prev].p_id, st, ct, processes[prev].turnaround_time, "completed"))  # napsa
@@ -155,10 +187,8 @@ class Algo():
                                                processes[i].waiting_time
 
         # setting initial values
-
         findWaitingTime(proc, n)
-        # gantt.append((processes[prev].p_id, (st, ct)))
-
+        gantt.append((processes[prev].p_id, st, ct, proc[prev].turnaround_time, "intial"))  # napsa
         findTurnAroundTime(proc, n)
 
         for i in range(0, n):
@@ -171,10 +201,7 @@ class Algo():
             total_waiting_time += proc[i].waiting_time
             total_turnaround_time += proc[i].turnaround_time
             total_return_time += proc[i].burst_time
-
             # print(proc[i].arrival_time, proc[i].p_id, proc[i].priority, proc[i].burst_time)
-
-        print(gantt)
 
         for i in range(len(gantt)):
             self.tat.append(gantt[i][2])
@@ -183,3 +210,4 @@ class Algo():
 
         print("tat", self.tat)
         print("true seq ", self.trueSequence)
+        print("gantt ", gantt)

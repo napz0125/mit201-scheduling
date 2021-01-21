@@ -16,9 +16,7 @@ from itertools import groupby
 import process
 import cpu_sched
 
-
-# todo : input process order to be as per the no of checked box. both for fcfs and preemptive
-
+# todo : unfinished yet and unmodified
 class WorkerSignals(QObject):
     progress = pyqtSignal(int)
 
@@ -40,11 +38,12 @@ class mywindow(Ui_MainWindow, QMainWindow):
         super(mywindow, self).__init__()
         self.setupUi(self)
 
+        self.thread5 = threading.Thread(target=self.label5_move)
         self.thread1 = threading.Thread(target=self.label_move)
         self.thread2 = threading.Thread(target=self.label2_move)
         self.thread3 = threading.Thread(target=self.label3_move)
         self.thread4 = threading.Thread(target=self.label4_move)
-        self.thread5 = threading.Thread(target=self.label5_move)
+
         self.flag = False
         self.reset.pressed.connect(self.restart)
         self.fcfs.clicked.connect(self.start_fcfs)
@@ -58,6 +57,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
 
         self.algo = None
         self.data = None
+        self.label_sequence = []
 
     def paintEvent(self, e):
         qp = QPainter()
@@ -78,10 +78,8 @@ class mywindow(Ui_MainWindow, QMainWindow):
             qp.drawLine(x_fixed, y_axis_and_heigth_2, v_width_fixed, y_axis_and_heigth_2)
             qp.setPen(pen)
             qp.drawLine(x_fixed, y_axis_and_heigth_1, x_fixed, y_axis_and_heigth_2)
-
             y_axis_and_heigth_1 = y_axis_and_heigth_1 + 80
             y_axis_and_heigth_2 = y_axis_and_heigth_2 + 80
-
             i += 1
 
         qp.setPen(pen)
@@ -122,27 +120,46 @@ class mywindow(Ui_MainWindow, QMainWindow):
         self.trueBurstTime = self.algo.tat
         if self.flag:
             painter = QtGui.QPainter(self.labelchart.pixmap())
-            mapColor = {}
-            uniqueTrueSequence = set(self.trueSequence)
-            colorIndex = 0
-
-        for i in uniqueTrueSequence:
-            mapColor[i] = colorIndex
-            colorIndex += 1
 
         # color bars.
         tailPos_by_arrival = self.algo.arrival_time[0] * 20
         tailPos = 10 + tailPos_by_arrival
         j = 0
+
         for i, k in zip(self.trueBurstTime, self.trueSequence):
-            r = self.color[mapColor[k]][0]
-            g = self.color[mapColor[k]][1]
-            b = self.color[mapColor[k]][2]
-            painter.setBrush(QColor(r, g, b))
+            if k == "P1":
+                r = self.color[0][0]
+                g = self.color[0][1]
+                b = self.color[0][2]
+                painter.setBrush(QColor(r, g, b))
+
+            if k == "P2":
+                r = self.color[1][0]
+                g = self.color[1][1]
+                b = self.color[1][2]
+                painter.setBrush(QColor(r, g, b))
+
+            if k == "P3":
+                r = self.color[2][0]
+                g = self.color[2][1]
+                b = self.color[2][2]
+                painter.setBrush(QColor(r, g, b))
+
+            if k == "P4":
+                r = self.color[3][0]
+                g = self.color[3][1]
+                b = self.color[3][2]
+                painter.setBrush(QColor(r, g, b))
+
+            if k == "P5":
+                r = self.color[4][0]
+                g = self.color[4][1]
+                b = self.color[4][2]
+                painter.setBrush(QColor(r, g, b))
 
             # Process label
             p = str(self.trueSequence[j])
-            chartRect = QRect(tailPos, 30, i + progress + 15, 30)
+            chartRect = QRect(tailPos, 30, i + progress + 10, 30)
             self.update_progress(painter, chartRect, p, tailPos, i + 45)
             tailPos += i * 20
             j += 1
@@ -154,22 +171,22 @@ class mywindow(Ui_MainWindow, QMainWindow):
             painter.setBrush(QColor(0, 0, 0))
             painter.drawRect(rulerPos, 77, 1, 10)
             pen = QtGui.QPen()
-            pen.setWidth(1)
+            pen.setWidth(3)
             pen.setColor(QtGui.QColor('black'))
             painter.setPen(pen)
-            painter.drawText(rulerPos, 75, str(i))
-            rulerPos += 21
-            if i == 61:
+            painter.drawText(rulerPos-1, 75,str(i))
+            rulerPos += 23
+            if i == 100:
                 break
         self.update()
         painter.end()
 
     def start_preemptive_priority(self):
         self.fcfs.hide()
+        self.preemptive.hide()
         self.validate_input()
         if self.flag is True:
             if self.flag is True:
-                # {"p1": [5, 8], "p4": [4, 5], "p3": [3, 2], "p5": [2, 3], "p2": [1, 6]} => order by arrival time
                 processes = []
                 if self.bt1_1.value() > 0:
                     p = process.Process()
@@ -211,14 +228,6 @@ class mywindow(Ui_MainWindow, QMainWindow):
                     p.priority = self.bt_priority5.value()
                     processes.append(p)
 
-                # sort according to arrival time using selection sort algo
-                for i in range(len(processes)):
-                    min_idx = i
-                    for j in range(i + 1, len(processes)):
-                        if processes[i].arrival_time> processes[j].arrival_time:
-                            min_idx = j
-                    processes[i], processes[min_idx] = processes[min_idx], processes[i]
-
             self.algo = cpu_sched.Algo()
             self.algo.PREEMPTIVE_PRIORITY(processes)
 
@@ -246,15 +255,14 @@ class mywindow(Ui_MainWindow, QMainWindow):
             self.start_thread()
 
     def start_fcfs(self):
-        print("Threads num: {}".format(threading.activeCount()))
         if threading.activeCount() >= 2:
             pass
         else:
             # validation
             self.preemptive.hide()
+            self.fcfs.hide()
             self.validate_input()
             if self.flag is True:
-                # {"p1": [5, 8], "p4": [4, 5], "p3": [3, 2], "p5": [2, 3], "p2": [1, 6]} => order by arrival time
                 processes = []
                 if self.bt1_1.value() > 0:
                     p = process.Process()
@@ -291,18 +299,7 @@ class mywindow(Ui_MainWindow, QMainWindow):
                     p.burst_time = self.bt1_5.value()
                     processes.append(p)
 
-                # sort according to arrival time using selection sort algo
-                for i in range(len(processes)):
-                    min_idx = i
-                    for j in range(i + 1, len(processes)):
-                        if processes[i].arrival_time > processes[j].arrival_time:
-                            min_idx = j
-                    processes[i], processes[min_idx] = processes[min_idx], processes[i]
-
                 self.algo = cpu_sched.Algo()
-                for i in range(len(processes)):
-                    print("input parameter : ", processes[i].arrival_time, processes[i].burst_time, processes[i].p_id)
-
                 self.algo.FCFS(processes)
 
                 temp_row = ()
@@ -339,19 +336,28 @@ class mywindow(Ui_MainWindow, QMainWindow):
 
     def start_thread(self):
         if self.flag is True:
+
             self.thread1.suspended = threading.Event()
             self.thread1.suspended.set()
+
             self.thread2.suspended = threading.Event()
             self.thread2.suspended.set()
+
             self.thread3.suspended = threading.Event()
             self.thread3.suspended.set()
+
             self.thread4.suspended = threading.Event()
             self.thread4.suspended.set()
 
+            self.thread5.suspended = threading.Event()
+            self.thread5.suspended.set()
+
+            self.thread5.start()
             self.thread1.start()
             self.thread2.start()
             self.thread3.start()
             self.thread4.start()
+
             self.action_table()
             self.action_chart()
 
@@ -364,46 +370,149 @@ class mywindow(Ui_MainWindow, QMainWindow):
             self.thread_resume(eval("self.thread" + str(i)))
 
     def label_move(self):
+        index_for_sleep = 0
+        initial_position = [600, 560, 520, 480, 440]
+        label_position = 0
+        for i in range(len(self.algo.trueSequence)):
+            if self.algo.trueSequence[i] == "P1":
+                index_for_sleep = i + 1
+                label_position = initial_position[i]
+                break
+
         for i in range(350, 380, 10):
             self.thread1.suspended.wait()
             self.label.move(i, 70)
-            self.label.move(i, 70)
-            time.sleep(self.algo.arrival_time[0] / 10)
+            time.sleep(index_for_sleep / 10)
         self.thread_suspend(self.thread1)
-        self.label.setGeometry(QtCore.QRect(600, 190, 41, 41))
+
+        self.label.setGeometry(QtCore.QRect(label_position, 190, 41, 41))
+        self.move_01(label_position, 780, index_for_sleep/10)
 
     def label2_move(self):
+        index_for_sleep = 0
+        initial_position = [600, 560, 520, 480, 440]
+        label_position = 0
+        for i in range(len(self.algo.trueSequence)):
+            if self.algo.trueSequence[i] == "P2":
+                index_for_sleep = i + 1
+                label_position = initial_position[i]
+                break
+
         for i in range(350, 380, 5):
             self.thread2.suspended.wait()
             self.label_2.move(i, 150)
-            time.sleep(self.algo.arrival_time[1] / 10)
+            time.sleep(index_for_sleep/ 10)
         self.thread_suspend(self.thread2)
-        self.label_2.setGeometry(QtCore.QRect(560, 190, 41, 41))
-        self.instack()
+
+        self.label_2.setGeometry(QtCore.QRect(label_position, 190, 41, 41))
+        self.move_02(label_position, 780, index_for_sleep/10)
 
     def label3_move(self):
+        index_for_sleep = 0
+        initial_position = [600, 560, 520, 480, 440]
+        label_position = 0
+        for i in range(len(self.algo.trueSequence)):
+            if self.algo.trueSequence[i] == "P3":
+                index_for_sleep = i + 1
+                label_position = initial_position[i]
+                break
+
         for i in range(350, 380, 5):
             self.thread3.suspended.wait()
             self.label_3.move(i, 230)
-            time.sleep(self.algo.arrival_time[2] / 10)
+            time.sleep(index_for_sleep / 10)
         self.thread_suspend(self.thread3)
-        self.label_3.setGeometry(QtCore.QRect(520, 190, 41, 41))
+
+        self.label_3.setGeometry(QtCore.QRect(label_position, 190, 41, 41))
+        self.move_03(label_position, 780, index_for_sleep/10)
 
     def label4_move(self):
+        index_for_sleep = 0
+        initial_position = [600, 560, 520, 480, 440]
+        label_position = 0
+        for i in range(len(self.algo.trueSequence)):
+            if self.algo.trueSequence[i] == "P4":
+                index_for_sleep = i + 1
+                label_position = initial_position[i]
+                break
+
         for i in range(350, 380, 5):
             self.thread4.suspended.wait()
             self.label_4.move(i, 310)
-            time.sleep(self.algo.arrival_time[3] / 10)
+            time.sleep(index_for_sleep / 10)
         self.thread_suspend(self.thread4)
-        self.label_4.setGeometry(QtCore.QRect(480, 190, 41, 41))
+
+        self.label_4.setGeometry(QtCore.QRect(label_position, 190, 41, 41))
+        self.move_04(label_position, 780, index_for_sleep/10)
 
     def label5_move(self):
+        index_for_sleep = 0
+        initial_position = [600, 560, 520, 480, 440]
+        label_position = 0
+        for i in range(len(self.algo.trueSequence)):
+            if self.algo.trueSequence[i] =="P5":
+                index_for_sleep = i+1
+                label_position = initial_position[i]
+                break
+
         for i in range(350, 380, 5):
             self.thread5.suspended.wait()
-            self.label_5.move(i, 370)
-            time.sleep(self.algo.arrival_time[4] / 10)
+            self.label_5.move(i, 350)
+            time.sleep(index_for_sleep / 10)
         self.thread_suspend(self.thread5)
-        self.label_5.setGeometry(QtCore.QRect(440, 190, 41, 41))
+
+        self.label_5.setGeometry(QtCore.QRect(label_position, 190, 41, 41))
+        self.move_05(label_position, 780, index_for_sleep/10)
+
+    def move_05(self, initial, max, sleep):
+        print("P5 ", sleep)
+        while initial <= max:
+            if initial >= 780:
+                self.label_5.setStyleSheet("QLabel{background:#F0F0F0;}")
+                self.label_5.setText("")
+            self.label_5.move(initial, 190)
+            initial +=10
+            time.sleep(sleep)
+
+    def move_04(self, initial, max, sleep):
+        print("P4 ", sleep)
+        while initial <= max:
+            if initial >= 780:
+                self.label_4.setStyleSheet("QLabel{background:#F0F0F0;}")
+                self.label_4.setText("")
+            self.label_4.move(initial, 190)
+            initial +=10
+            time.sleep(sleep)
+
+    def move_03(self, initial, max, sleep):
+        print("P3 ", sleep)
+        while initial <= max:
+            if initial >= 780:
+                self.label_3.setStyleSheet("QLabel{background:#F0F0F0;}")
+                self.label_3.setText("")
+            self.label_3.move(initial, 190)
+            initial +=10
+            time.sleep(sleep)
+
+    def move_02(self, initial, max, sleep):
+        print("P2 ", sleep)
+        while initial <= max:
+            if initial >= 780:
+                self.label_2.setStyleSheet("QLabel{background:#F0F0F0;}")
+                self.label_2.setText("")
+            self.label_2.move(initial, 190)
+            initial += 10
+            time.sleep(sleep)
+
+    def move_01(self, initial, max, sleep):
+        print("P1 ", sleep)
+        while initial <= max:
+            if initial >= 780:
+                self.label.setStyleSheet("QLabel{background:#F0F0F0;}")
+                self.label.setText("")
+            self.label.move(initial, 190)
+            initial += 10
+            time.sleep(sleep)
 
     def thread_suspend(self, thread):
         if not thread.suspended.is_set():
@@ -432,26 +541,33 @@ class mywindow(Ui_MainWindow, QMainWindow):
             time.sleep(0.3)
 
     def instack(self):
-        # todo : preemptive priority process switching
-        # todo : label color scheme is not matching with the color bar
+        # todo : context switcing as per arrival time
         i1 = 0
         i2 = 0
         i3 = 0
         i4 = 0
         i5 = 0
+        index = 0
         sequence = self.algo.trueSequence
+        label_sequence =[]
         for i in range(len(sequence)):
-            if i == 1:
+            if i == 0:
                 i1 = 600
-            if i == 2:
+                label_sequence.append((sequence[i],i1))
+            if i == 1:
                 i2 = 560
-            if i == 3:
+                label_sequence.append((sequence[i],i2))
+            if i == 2:
                 i3 = 520
-            if i == 4:
+                label_sequence.append((sequence[i],i2))
+            if i == 3:
                 i4 = 480
-            if i == 5:
+                label_sequence.append((sequence[i],i3))
+            if i == 4:
                 i5 = 440
-        #i1, i4, i3, i2, i5 = 600, 560, 520, 480, 440
+                label_sequence.append((sequence[i],i5))
+            print(i, label_sequence)
+        #print("before while i1 %d. i2 %d. i3 %d. i4 %d. i5 %d" % (i1, i2, i3, i4, i5))
         while i5 <= 780:
             if i1 > 780:
                 self.label.setStyleSheet("QLabel{background:#F0F0F0;}")
@@ -468,20 +584,23 @@ class mywindow(Ui_MainWindow, QMainWindow):
             if i5 >= 780:
                 self.label_5.setStyleSheet("QLabel{background:#F0F0F0;}")
                 self.label_5.setText("")
-            self.label.move(i1, 190)
-            self.label_2.move(i2, 190)
-            self.label_3.move(i3, 190)
-            self.label_4.move(i4, 190)
-            self.label_5.move(i5, 190)
+
+                self.label.move(i1, 190)
+                self.label_2.move(i2, 190)
+                self.label_3.move(i3, 190)
+                self.label_4.move(i4, 190)
+                self.label_5.move(i5, 190)
+
             i1 += 10
             i2 += 10
             i3 += 10
             i4 += 10
             i5 += 10
-            time.sleep(0.3)
+            #print("i1 %d. i2 %d. i3 %d. i4 %d. i5 %d" %(i1, i2, i3, i4, i5))
+            time.sleep(0.5)
 
     def restart(self):
-        os.system("python simulation.py")
+        os.system("python simulation_pp.py")
         self.close()
 
 # https://stackoverflow.com/questions/48928080/pyqt-signal-not-emitted-in-qabstracttablemodel

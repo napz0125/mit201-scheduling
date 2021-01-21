@@ -32,7 +32,7 @@ class Ui_MainWindow(object):
                 self.at_1.setGeometry(QtCore.QRect(200, 100, 48, 26))
                 self.at_1.setMaximum(999)
                 self.at_1.setObjectName("at_1")
-                self.at_1.setValue(0)
+                self.at_1.setValue(5)
               
                 self.bt1_2 = QtWidgets.QSpinBox(self.centralwidget)
                 self.bt1_2.setEnabled(True)
@@ -71,7 +71,7 @@ class Ui_MainWindow(object):
                 self.at_5.setGeometry(QtCore.QRect(200, 400, 48, 26))
                 self.at_5.setMaximum(999)
                 self.at_5.setObjectName("at_5")
-                self.at_5.setValue(5)
+                self.at_5.setValue(1)
                                 
                 self.bt1_4 = QtWidgets.QSpinBox(self.centralwidget)
                 self.bt1_4.setEnabled(True)
